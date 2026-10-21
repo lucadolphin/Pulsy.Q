@@ -35,18 +35,6 @@ class DisabledCheckMock {
 	}
 }
 
-class MeteorErrorMock extends Error {
-	error: string;
-
-	details: unknown;
-
-	constructor(error: string, reason?: string, details?: unknown) {
-		super(reason);
-		this.error = error;
-		this.details = details;
-	}
-}
-
 const { checkCodeForUser } = proxyquire.noCallThru().load('./index', {
 	'./TOTPCheck': { TOTPCheck: TOTPCheckMock },
 	'./EmailCheck': { EmailCheck: DisabledCheckMock },
@@ -60,7 +48,6 @@ const { checkCodeForUser } = proxyquire.noCallThru().load('./index', {
 		},
 	},
 	'meteor/accounts-base': { Accounts: { _getLoginToken: getLoginTokenStub } },
-	'meteor/meteor': { Meteor: { Error: MeteorErrorMock } },
 });
 
 const HASHED_TOKEN = 'hashed-login-token';
