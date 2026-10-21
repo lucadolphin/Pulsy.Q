@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 export interface UnorderedObserver<T extends { _id: string }, TThis = any> {
 	added: (this: TThis, id: T['_id'], fields: Partial<T>) => void | Promise<void>;
 	changed: (this: TThis, id: T['_id'], fields: Partial<T>) => void | Promise<void>;

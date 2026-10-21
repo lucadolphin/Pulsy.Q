@@ -16,7 +16,7 @@ export const executeGetImportProgress = async (): Promise<IImportProgress> => {
 		throw new Meteor.Error('error-importer-not-defined', `The importer (${importerKey}) has no import class defined.`, 'getImportProgress');
 	}
 
-	const instance = new importer.importer(importer, operation); // eslint-disable-line new-cap
+	const instance = new importer.importer(importer, operation); // oxlint-disable-line new-cap
 
 	return instance.getProgress();
 };

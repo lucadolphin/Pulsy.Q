@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
-
 import type { Cursor, Options } from './Cursor';
 import type { IdMap } from './IdMap';
 import type { OrderedObserver, UnorderedObserver } from './observers';

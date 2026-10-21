@@ -22,7 +22,7 @@ export const executeGetImportFileData = async (): Promise<IImporterSelection | {
 		throw new Meteor.Error('error-importer-not-defined', `The importer (${importerKey}) has no import class defined.`, 'getImportFileData');
 	}
 
-	const instance = new importer.importer(importer, operation); // eslint-disable-line new-cap
+	const instance = new importer.importer(importer, operation); // oxlint-disable-line new-cap
 
 	const waitingSteps: IImportProgress['step'][] = [
 		ProgressStep.DOWNLOADING_FILE,

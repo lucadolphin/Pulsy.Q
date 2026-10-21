@@ -9,7 +9,6 @@ import { isSdkTransportEnabled } from './sdk/sdkTransportEnabled';
 import { callMethod, callMethodWithoutResult, onRawMessage, subscribeRaw } from '../meteor/connection';
 
 declare module '@rocket.chat/ddp-client' {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	interface SDK {
 		stream<N extends StreamNames, K extends StreamKeys<N>>(
 			streamName: N,

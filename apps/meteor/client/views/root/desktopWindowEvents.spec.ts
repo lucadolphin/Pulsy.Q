@@ -85,7 +85,7 @@ const loadStartup = (sdkTransportEnabled: boolean) => {
 	}));
 
 	jest.isolateModules(() => {
-		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		// oxlint-disable-next-line @typescript-eslint/no-require-imports
 		require('../../startup/startup');
 	});
 };

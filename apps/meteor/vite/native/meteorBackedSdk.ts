@@ -5,7 +5,6 @@ import { setStorageBackend } from '../../client/lib/sdk/storage';
 export const FORGET_SESSION_SETTING_ID = 'Accounts_ForgetUserSessionOnWindowClose';
 
 declare global {
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	interface Window {
 		[FORGET_SESSION_SETTING_ID]?: boolean;
 	}

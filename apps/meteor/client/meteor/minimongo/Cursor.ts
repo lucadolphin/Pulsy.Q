@@ -403,7 +403,7 @@ export class Cursor<T extends { _id: string }, TOptions extends Options<T>> {
 					if (observeCallbacks.addedAt) {
 						observeCallbacks.addedAt(
 							doc,
-							// eslint-disable-next-line no-nested-ternary
+							// oxlint-disable-next-line no-nested-ternary
 							indices ? (before ? this.docs.indexOf(before) : this.docs.size()) : -1,
 							before,
 						);
@@ -437,7 +437,7 @@ export class Cursor<T extends { _id: string }, TOptions extends Options<T>> {
 					}
 
 					const from = indices ? this.docs.indexOf(id) : -1;
-					// eslint-disable-next-line no-nested-ternary
+					// oxlint-disable-next-line no-nested-ternary
 					let to = indices ? (before ? this.docs.indexOf(before) : this.docs.size()) : -1;
 
 					if (to > from) {

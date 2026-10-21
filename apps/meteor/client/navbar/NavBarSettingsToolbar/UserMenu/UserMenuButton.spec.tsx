@@ -42,7 +42,7 @@ describe('UserMenuButton', () => {
 				.build(),
 		});
 
-		// eslint-disable-next-line testing-library/no-node-access
+		// oxlint-disable-next-line testing-library/no-node-access
 		expect(screen.getByRole('status').querySelector(`.rcx-status-bullet--${expected}`)).toBeInTheDocument();
 	});
 });
