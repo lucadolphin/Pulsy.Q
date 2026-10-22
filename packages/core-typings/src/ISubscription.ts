@@ -18,6 +18,8 @@ export interface ISubscription extends IRocketChatRecord {
 	name: string;
 
 	alert?: boolean;
+	isTyping?: boolean;
+	typingUsers?: { _id: IUser['_id']; username: IUser['username']; name?: IUser['name'] }[];
 	unread: number;
 	t: RoomType;
 	ls?: Date;

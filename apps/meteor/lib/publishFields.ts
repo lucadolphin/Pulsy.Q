@@ -12,6 +12,8 @@ export const subscriptionFields = {
 	category: 1,
 	open: 1,
 	alert: 1,
+	isTyping: 1,
+	typingUsers: 1,
 	roles: 1,
 	unread: 1,
 	prid: 1,

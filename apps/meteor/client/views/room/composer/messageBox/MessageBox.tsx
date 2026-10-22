@@ -348,13 +348,21 @@ const MessageBox = ({
 	const keyDownHandlerCallbackRef = useCallback(
 		(node: HTMLTextAreaElement) => {
 			const eventHandler = (e: KeyboardEvent) => keyboardEventHandler(e);
+			// keydown fires before the value changes, so only here can we tell that the input was emptied
+			const stopTypingWhenEmptied = () => {
+				if (node.value.trim() === '') {
+					onTyping?.();
+				}
+			};
 			node.addEventListener('keydown', eventHandler);
+			node.addEventListener('input', stopTypingWhenEmptied);
 
 			return () => {
 				node.removeEventListener('keydown', eventHandler);
+				node.removeEventListener('input', stopTypingWhenEmptied);
 			};
 		},
-		[keyboardEventHandler],
+		[keyboardEventHandler, onTyping],
 	);
 
 	const beforeInputHandlerCallbackRef = useCallback(

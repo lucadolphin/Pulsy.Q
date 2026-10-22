@@ -15,6 +15,7 @@ import { Rooms, Subscriptions, Users, VideoConference } from '@rocket.chat/model
 import { emit, StreamPresence } from './StreamPresence';
 import { getCachedUserForPublication } from './publication-user-cache';
 import { Streamer as StreamerModule } from './streamer.module';
+import { setSubscriptionTyping } from './subscriptionTyping';
 import type { IStreamer, IStreamerConstructor } from './types';
 
 const logger = new Logger('NotificationsModule');
@@ -251,6 +252,10 @@ export class NotificationsModule {
 
 			if (!(await canType({ extraData, rid, username, userId: this.userId ?? undefined }))) {
 				return false;
+			}
+
+			if (this.userId && !extraData?.tmid && Array.isArray(_activity)) {
+				void setSubscriptionTyping(rid, this.userId, _activity.includes('user-typing'));
 			}
 
 			return true;

@@ -21,10 +21,10 @@ const BaseAvatar = ({ url, onLoad, onError, size, ...props }: BaseAvatarProps) =
 	});
 
 	if (unloaded && url === prevUrl) {
-		return <Skeleton aria-hidden='true' variant='rect' width={size} height={size} {...props} />;
+		return <Skeleton aria-hidden='true' variant='circle' width={size} height={size} {...props} />;
 	}
 
-	return <Avatar aria-hidden='true' onLoad={handleLoad} onError={handleError} url={url} size={size} {...props} />;
+	return <Avatar aria-hidden='true' rounded onLoad={handleLoad} onError={handleError} url={url} size={size} {...props} />;
 };
 
 export default BaseAvatar;

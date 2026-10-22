@@ -442,12 +442,21 @@ const RichTextMessageBox = ({
 	const popupOptions = useComposerPopupOptions();
 	const popup = useComposerBoxPopup(popupOptions);
 
+	// keydown fires before the content changes, so only here can we tell that the input was emptied
+	const stopTypingWhenEmptied = useStableCallback((event: Event) => {
+		if ((event.currentTarget as HTMLDivElement).innerText.trim() === '') {
+			onTyping?.();
+		}
+	});
+
 	const keyDownHandlerCallbackRef = useCallback((node: HTMLDivElement) => {
 		const eventHandler = (e: KeyboardEvent) => keyboardEventHandler(e);
 		node.addEventListener('keydown', eventHandler);
+		node.addEventListener('input', stopTypingWhenEmptied);
 
 		return () => {
 			node.removeEventListener('keydown', eventHandler);
+			node.removeEventListener('input', stopTypingWhenEmptied);
 		};
 	}, []);
 

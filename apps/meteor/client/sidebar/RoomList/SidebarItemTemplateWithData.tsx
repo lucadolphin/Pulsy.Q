@@ -1,7 +1,7 @@
 import { isOmnichannelRoom } from '@rocket.chat/core-typings';
 import { Icon, SidebarAction, SidebarActions, SidebarItemIcon } from '@rocket.chat/fuselage';
 import type { SubscriptionWithRoom } from '@rocket.chat/ui-contexts';
-import { useLayout } from '@rocket.chat/ui-contexts';
+import { useLayout, useSetting } from '@rocket.chat/ui-contexts';
 import type { TFunction } from 'i18next';
 import type { AllHTMLAttributes, ComponentType, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
@@ -111,7 +111,12 @@ const SidebarItemTemplateWithData = ({
 	const { enabled: isPriorityEnabled } = useOmnichannelPriorities();
 
 	const message = extended && getMessagePreview(room, lastMessage, t);
-	const subtitle = message ? <span className='message-body--unstyled' dangerouslySetInnerHTML={{ __html: message }} /> : null;
+	const messageSubtitle = message ? <span className='message-body--unstyled' dangerouslySetInnerHTML={{ __html: message }} /> : null;
+	const useRealName = useSetting('UI_Use_Real_Name', false);
+	const typingUsers = room.typingUsers ?? [];
+	const typingNames = typingUsers.map((user) => (useRealName && user.name) || user.username).join(', ');
+	const typingLabel = room.t === 'd' ? t('is_typing') : `${typingNames} ${typingUsers.length > 1 ? t('are_typing') : t('is_typing')}`;
+	const subtitle = extended && room.isTyping ? <i>{typingLabel}…</i> : messageSubtitle;
 
 	return (
 		<SidebarItemTemplate
@@ -198,6 +203,9 @@ export default memo(SidebarItemTemplateWithData, (prevProps, nextProps) => {
 		return false;
 	}
 	if (prevProps.room.alert !== nextProps.room.alert) {
+		return false;
+	}
+	if (prevProps.room.isTyping !== nextProps.room.isTyping || prevProps.room.typingUsers?.length !== nextProps.room.typingUsers?.length) {
 		return false;
 	}
 	if (prevProps.room.draft !== nextProps.room.draft) {
