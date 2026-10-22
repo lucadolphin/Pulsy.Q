@@ -11,10 +11,12 @@
 	"type": "module",
 	"main": "./index.js",
 	"exports": {
-		".": "./index.js"
+		".": "./index.js",
+		"./rules": "./rules/index.js"
 	},
 	"files": [
-		"/index.js"
+		"/index.js",
+		"/rules"
 	],
 	"scripts": {
 		"lint": "eslint .",

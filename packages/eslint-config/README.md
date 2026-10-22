@@ -81,6 +81,27 @@ Formatting problems are reported by the `prettier/prettier` rule and fixed by `e
 
 The config enables Node.js globals for all files. Add browser or other globals yourself, as shown above.
 
+### Opt-in rules
+
+`@rocket.chat/eslint-config/rules` exports a plugin with rules the default config doesn't turn on:
+
+| Rule            | What it reports                                                                                                                                                                                                                                                                                                                                                                                      |
+| --------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `spacing-scale` | Literal spacing values off the Fuselage spacing scale (`x4`, `x8`, `x12`, `x16`, `x20`, `x24`, `x32`, `x40`, their negatives, `0`, `none` and `auto` are allowed). It checks `margin*`, `padding*`, `gap`, `rowGap` and `columnGap` on capitalized JSX components, the `Margins` props, and `spacing()` calls. The `ignoreComponents` option skips components whose spacing props aren't Fuselage's. |
+
+```js
+import rocketChatConfig from '@rocket.chat/eslint-config';
+import rocketChatRules from '@rocket.chat/eslint-config/rules';
+
+export default [
+	...rocketChatConfig,
+	{
+		plugins: { 'rocket.chat': rocketChatRules },
+		rules: { 'rocket.chat/spacing-scale': 'error' },
+	},
+];
+```
+
 ## Development
 
 This package lives in the [Rocket.Chat monorepo](https://github.com/RocketChat/Rocket.Chat/tree/develop/packages/eslint-config). From the repository root:
@@ -90,7 +111,7 @@ yarn workspace @rocket.chat/eslint-config lint
 yarn workspace @rocket.chat/eslint-config lint:fix
 ```
 
-The config is a single file, `index.js`. The repository's root `eslint.config.mjs` builds on it, so a change here affects every package in the monorepo.
+The config is `index.js`, and the opt-in rules live in `rules/`. The repository's root `eslint.config.mjs` builds on it, so a change here affects every package in the monorepo.
 
 ## License
 
