@@ -1,0 +1,7 @@
+{
+  "src/views/ConferencePreflight.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

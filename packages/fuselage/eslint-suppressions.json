@@ -1,0 +1,32 @@
+{
+  "src/components/Contextualbar/ContextualbarIcon.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Label/LabelInfo.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Margins/Margins.spec.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Sidepanel/SidepanelHeader.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Throbber/Throbber.stories.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Tooltip/Tooltip.stories.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  }
+}

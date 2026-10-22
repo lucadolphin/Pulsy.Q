@@ -1,0 +1,47 @@
+{
+  "src/components/Contextualbar/ContextualbarHeader.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/DotLeader.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/Header/HeaderDivider.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/HoverCard/HoverCardInfoItem.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "src/components/UserCard/UserCard.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/UserCard/UserCardRole.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/UserCard/UserCardRoles.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/UserCard/UserCardSkeleton.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/UserInfo/UserInfoABACAttributes.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  }
+}

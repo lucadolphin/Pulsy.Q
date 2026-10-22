@@ -1,0 +1,12 @@
+{
+  "src/MessageComposer/MessageComposer.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/MessageComposer/MessageComposerFile/MessageComposerFileGroup.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "src/layouts/VerticalWizardLayout/VerticalWizardLayoutTitle.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

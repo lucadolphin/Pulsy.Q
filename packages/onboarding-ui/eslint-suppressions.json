@@ -1,0 +1,12 @@
+{
+  "src/pages/CreateCloudWorkspacePage/CreateCloudWorkspacePage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/pages/OauthAuthorizationPage/OauthAuthorizationPage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

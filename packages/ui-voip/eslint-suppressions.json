@@ -1,0 +1,12 @@
+{
+  "src/components/Cards/CardListSection.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/components/PeerAutocomplete.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

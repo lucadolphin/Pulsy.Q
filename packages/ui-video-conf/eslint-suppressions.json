@@ -1,0 +1,12 @@
+{
+  "src/VideoConfMessage/VideoConfMessageUserStack.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "src/VideoConfPopup/VideoConfPopupFooter.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

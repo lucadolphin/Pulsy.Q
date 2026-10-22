@@ -1,0 +1,82 @@
+{
+  "src/Components/ComponentSideBar/ScrollableSideBar.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/DropDown/DropDown.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "src/Components/DropDown/Items.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/FlowContainer/UIKitWrapper/UIKitWrapper.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "src/Components/HomeContainer/HomeContainer.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/HomeContainer/ProjectsList/ProjectsList.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/HomeContainer/ProjectsList/ProjectsThumbnail.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/NavBar/BurgerIcon/Wrapper.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/NavBar/RightNavBtn.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/Preview/NavPanel/NavPanel.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/ScreenThumbnail/EditMenu/EditMenu.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "src/Components/Templates/Container/Container.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "src/Components/Templates/Container/Payload.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "src/Components/Templates/Container/Section.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "src/Components/navMenu/Menu/Wrapper.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "src/Pages/SignInSignUp.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  }
+}

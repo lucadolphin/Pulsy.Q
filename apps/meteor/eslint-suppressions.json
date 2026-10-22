@@ -1,0 +1,357 @@
+{
+  "client/components/ABAC/AbacRoomCreation/CreateRoomSteps.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/components/ImageGallery/ImageGallery.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "client/components/RoomAutoComplete/RoomAutoComplete.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/components/UserAutoCompleteMultiple/UserAutoCompleteMultiple.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/components/message/content/Action.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/components/message/content/attachments/structure/AttachmentRow.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/components/message/content/attachments/structure/AttachmentText.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/components/message/content/attachments/structure/AttachmentTitle.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/navbar/NavBarPagesGroup/actions/CreateDirectMessage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/navbar/NavBarSearch/NavBarAISearchListbox.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/sidebar/badges/SidebarItemBadges.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/sidebar/sections/NowPlayingSection.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/sidebar/sections/SidebarCard.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/account/security/ChangePassphrase.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/account/security/EndToEnd.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/ABAC/ABACRoomsTab/RoomFormAutocomplete.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/integrations/NewZapier.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/admin/moderation/helpers/ReportReason.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/admin/permissions/PermissionsTable/RoleCell.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/subscription/components/cards/FeaturesCard.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/users/AdminUsersPage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/viewLogs/AnalyticsReports.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/workspace/VersionCard/modals/RegisterWorkspaceSetupModal/RegisterWorkspaceSetupStepOneModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/workspace/VersionCard/modals/RegisterWorkspaceSetupModal/RegisterWorkspaceSetupStepTwoModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/admin/workspace/VersionCard/modals/RegisterWorkspaceTokenModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/audit/components/AuditForm.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/audit/components/SecurityLogsTable.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "client/views/directory/RoomTags.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppDetails/AppDetails.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppLogs/AppLogsItem.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppLogs/Filters/AppLogsFilter.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 7
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppLogs/Filters/AppLogsFilterContextualBar.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 5
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppLogs/Filters/DateTimeModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppLogs/Filters/ExportLogsModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppRequests/AppRequestItem.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppRequests/AppRequests.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppRequests/AppRequestsLoading.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppDetailsPage/tabs/AppStatus/AppStatus.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppExemptModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/AppsPage/AppsPageContentSkeleton.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/AppsPage/UnsupportedEmptyState.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/components/AccordionLoading.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/components/CategoryFilter/CategoryDropDownAnchor.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "client/views/marketplace/components/PrivateAppInstallModal/PrivateAppInstallModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/marketplace/components/RadioDropDown/RadioDownAnchor.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/components/ScreenshotCarousel.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/marketplace/components/ScreenshotCarouselAnchor.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/navigation/sidebar/badges/SidebarItemBadges.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/agents/AgentInfo.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/analytics/AnalyticsPage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/omnichannel/analytics/Overview.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/businessHours/BusinessHoursForm.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 2
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessagePreview/OutboundMessagePreview.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessagePreview/PreviewItem.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessageWizard/components/OutboundMessageWizardSkeleton.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 5
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessageWizard/forms/MessageForm/MessageForm.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessageWizard/forms/RecipientForm/RecipientForm.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/OutboundMessageWizard/forms/RepliesForm/RepliesForm.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/components/outboundMessage/components/TemplatePreview.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/directory/components/AgentField.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/directory/components/ContactField.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/modals/CloseChatModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  },
+  "client/views/omnichannel/modals/EnterpriseDepartmentsModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/modals/ForwardChatModal.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/queueList/QueueListTable.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/omnichannel/realTimeMonitoring/RealTimeMonitoringPage.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 4
+    }
+  },
+  "client/views/omnichannel/realTimeMonitoring/counter/CounterRow.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/room/contextualBar/Info/RoomInfo/ABAC/RoomInfoABACSection.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/room/modals/FileUploadModal/GenericPreview.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/search/SearchResultsHeader.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  },
+  "client/views/teams/contextualBar/channels/AddExistingModal/RoomsAvailableForTeamsAutoComplete.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 1
+    }
+  }
+}

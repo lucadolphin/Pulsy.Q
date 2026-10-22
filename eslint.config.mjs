@@ -1,10 +1,19 @@
 import rocketChatConfig from '@rocket.chat/eslint-config';
+import rocketChatRules from '@rocket.chat/eslint-config/rules';
 import youDontNeedLodashUnderscorePlugin from 'eslint-plugin-you-dont-need-lodash-underscore';
 import globals from 'globals';
 
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
 	...rocketChatConfig,
+	{
+		plugins: {
+			'rocket.chat': rocketChatRules,
+		},
+		rules: {
+			'rocket.chat/spacing-scale': ['error', { ignoreComponents: ['ResponsiveBar'] }],
+		},
+	},
 	{
 		ignores: [
 			'apps/meteor/**/public',

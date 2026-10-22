@@ -1,0 +1,7 @@
+{
+  "src/accessibility/views/AccessibilityView.tsx": {
+    "rocket.chat/spacing-scale": {
+      "count": 3
+    }
+  }
+}
