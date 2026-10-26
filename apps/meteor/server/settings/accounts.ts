@@ -532,7 +532,7 @@ export const createAccountSettings = () =>
 				public: true,
 				i18nLabel: 'Display_avatars',
 			});
-			await this.add('Accounts_Default_User_Preferences_sidebarGroupByType', true, {
+			await this.add('Accounts_Default_User_Preferences_sidebarGroupByType', false, {
 				type: 'boolean',
 				public: true,
 				i18nLabel: 'Group_by_Type',
@@ -629,7 +629,7 @@ export const createAccountSettings = () =>
 				i18nLabel: 'Also_send_thread_message_to_channel_behavior',
 			});
 
-			await this.add('Accounts_Default_User_Preferences_sidebarShowFavorites', true, {
+			await this.add('Accounts_Default_User_Preferences_sidebarShowFavorites', false, {
 				type: 'boolean',
 				public: true,
 				i18nLabel: 'Group_favorites',
