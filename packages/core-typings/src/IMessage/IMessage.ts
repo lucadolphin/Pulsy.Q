@@ -169,6 +169,8 @@ export interface IMessage extends IRocketChatRecord {
 	pinnedAt?: Date;
 	pinnedBy?: Pick<IUser, '_id' | 'username'>;
 	unread?: boolean;
+	/** Users whose client has received the message, which the sender shows as the second tick */
+	received?: { _id: IUser['_id']; ts: Date }[];
 	temp?: boolean;
 	drid?: IRoom['_id'];
 	tlm?: Date;

@@ -59,6 +59,7 @@ import './messages/loadNextMessages';
 import './messages/loadSurroundingMessages';
 import './messages/messageSearch';
 import './messages/readMessages';
+import './messages/setMessageReceived';
 import './messages/readThreads';
 import './messages/sendFileMessage';
 import './messages/sendMessage';

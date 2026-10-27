@@ -1599,6 +1599,14 @@ export class MessagesRaw extends BaseRaw<IMessage> implements IMessagesModel {
 		);
 	}
 
+	/** Marks the message as received by a recipient's client; senders and users already listed are left out */
+	setReceivedByUserId(_id: string, userId: string): Promise<UpdateResult> {
+		return this.updateOne(
+			{ _id, 'u._id': { $ne: userId }, 'received._id': { $ne: userId } },
+			{ $push: { received: { _id: userId, ts: new Date() } } },
+		);
+	}
+
 	setAsReadById(_id: string): Promise<UpdateResult> {
 		return this.updateOne(
 			{
