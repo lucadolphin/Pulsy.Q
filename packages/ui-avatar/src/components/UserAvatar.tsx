@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import type { BaseAvatarProps } from './BaseAvatar';
 import BaseAvatar from './BaseAvatar';
+import { useExentriqAvatar } from '../useExentriqAvatar';
 
 type UsernameProp = {
 	username: string;
@@ -23,13 +24,14 @@ export type UserAvatarProps = Omit<BaseAvatarProps, 'url' | 'title'> & {
 const UserAvatar = ({ username, userId, etag, ...rest }: UserAvatarProps) => {
 	const getUserAvatarPath = useUserAvatarPath();
 	const { t } = useTranslation();
+	const exentriqUrl = useExentriqAvatar({ username });
 
 	if (userId) {
 		const { url = getUserAvatarPath({ userId, etag }), ...props } = rest;
 		return <BaseAvatar url={url} alt={t('Avatar')} {...props} />;
 	}
 	if (username) {
-		const { url = getUserAvatarPath({ username, etag }), ...props } = rest;
+		const { url = exentriqUrl ?? getUserAvatarPath({ username, etag }), ...props } = rest;
 		return <BaseAvatar url={url} data-username={username} title={username} alt={t('Avatar')} {...props} />;
 	}
 

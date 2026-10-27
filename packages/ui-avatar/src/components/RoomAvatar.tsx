@@ -3,6 +3,7 @@ import { memo } from 'react';
 
 import type { BaseAvatarProps } from './BaseAvatar';
 import Avatar from './BaseAvatar';
+import { useExentriqAvatar } from '../useExentriqAvatar';
 
 export type RoomAvatarProps = Pick<BaseAvatarProps, 'size'> & {
 	url?: string;
@@ -17,8 +18,9 @@ export type RoomAvatarProps = Pick<BaseAvatarProps, 'size'> & {
 const RoomAvatar = function RoomAvatar({ room, url, size }: RoomAvatarProps) {
 	const getRoomPathAvatar = useRoomAvatarPath();
 	const urlFromContext = getRoomPathAvatar(room);
+	const exentriqUrl = useExentriqAvatar({ room });
 
-	return <Avatar url={url || urlFromContext} size={size} />;
+	return <Avatar url={url || exentriqUrl || urlFromContext} size={size} />;
 };
 
 export default memo(RoomAvatar);
