@@ -4,6 +4,7 @@ import { Uploads } from '@rocket.chat/models';
 import { WebApp } from 'meteor/webapp';
 
 import { FileUpload } from './FileUpload';
+import { respondWithLegacyTalkAttachment } from './legacyTalkAttachments';
 import { SystemLogger } from '../../../logger/system';
 
 const hasReplyWithRedirectUrlParam = (req: IncomingMessage) => {
@@ -53,6 +54,10 @@ WebApp.connectHandlers.use(FileUpload.getPath(), async (req, res, next) => {
 			res.setHeader('Content-Security-Policy', "default-src 'none'");
 			res.setHeader('Cache-Control', 'max-age=31536000');
 			await FileUpload.get(file, req, res, next);
+			return;
+		}
+
+		if (await respondWithLegacyTalkAttachment(match[1], req, res)) {
 			return;
 		}
 	}
