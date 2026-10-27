@@ -1,8 +1,8 @@
 import type { IMessage } from '@rocket.chat/core-typings';
-import { Message, MessageLeftContainer, MessageContainer, CheckBox } from '@rocket.chat/fuselage';
+import { Box, Message, MessageLeftContainer, MessageContainer, CheckBox } from '@rocket.chat/fuselage';
 import { useToggle } from '@rocket.chat/fuselage-hooks';
 import { MessageAvatar } from '@rocket.chat/ui-avatar';
-import { useUserId, useUserCard } from '@rocket.chat/ui-contexts';
+import { useUserId, useUserCard, useSetting } from '@rocket.chat/ui-contexts';
 import type { ComponentProps, KeyboardEvent } from 'react';
 import { memo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -20,6 +20,8 @@ import IgnoredContent from '../IgnoredContent';
 import MessageHeader from '../MessageHeader';
 import MessageToolbarHolder from '../MessageToolbarHolder';
 import StatusIndicators from '../StatusIndicators';
+import { getBubbleClassName } from './bubbleStyles';
+import BubbleMessageFooter from './room/BubbleMessageFooter';
 import RoomMessageContent from './room/RoomMessageContent';
 import { getCheckboxLabel } from '../helpers/getCheckboxLabel';
 import { useMessageListReadReceipts } from '../list/MessageListContext';
@@ -85,6 +87,8 @@ const RoomMessage = ({
 	const selected = useIsSelectedMessage(message._id);
 
 	const { enabled: readReceiptEnabled } = useMessageListReadReceipts();
+	const bubblesEnabled = useSetting('Message_Bubbles_Enabled', true);
+	const own = message.u._id === uid;
 
 	useCountSelected();
 
@@ -99,7 +103,7 @@ const RoomMessage = ({
 
 	const checkboxLabel = getCheckboxLabel(message, t);
 
-	return (
+	const row = (
 		<Message
 			id={message._id}
 			role='listitem'
@@ -116,7 +120,7 @@ const RoomMessage = ({
 			data-mid={message._id}
 			data-unread={unread}
 			data-sequential={sequential}
-			data-own={message.u._id === uid}
+			data-own={own}
 			aria-busy={message.temp}
 			{...props}
 		>
@@ -143,10 +147,13 @@ const RoomMessage = ({
 				) : (
 					<RoomMessageContent message={message} unread={unread} mention={mention} all={all} searchText={searchText} />
 				)}
+				{bubblesEnabled && <BubbleMessageFooter message={message} />}
 			</MessageContainer>
 			{!message.private && message?.e2e !== 'pending' && !selecting && <MessageToolbarHolder message={message} context={context} />}
 		</Message>
 	);
+
+	return bubblesEnabled ? <Box className={getBubbleClassName(own)}>{row}</Box> : row;
 };
 
 export default memo(RoomMessage);

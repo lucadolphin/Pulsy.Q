@@ -38,6 +38,13 @@ export const createMessageSettings = () =>
 				i18nDescription: 'Message_Attachments_Strip_ExifDescription',
 			});
 		});
+		await this.section('Message_Bubbles', async function () {
+			await this.add('Message_Bubbles_Enabled', true, {
+				type: 'boolean',
+				public: true,
+				i18nDescription: 'Message_Bubbles_EnabledDescription',
+			});
+		});
 		await this.section('Message_Audio', async function () {
 			await this.add('Message_AudioRecorderEnabled', true, {
 				type: 'boolean',
