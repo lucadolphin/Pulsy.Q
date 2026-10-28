@@ -9,6 +9,7 @@ import { useAppsRoomStarActions } from './hooks/roomActions/useAppsRoomStarActio
 import { useAutotranslateRoomAction } from './hooks/roomActions/useAutotranslateRoomAction';
 import { useBannedUsersRoomAction } from './hooks/roomActions/useBannedUsersRoomAction';
 import { useCallsRoomAction } from './hooks/roomActions/useCallsRoomAction';
+import { useCardDetailsMenuRoomAction, useCardDetailsRoomAction } from './hooks/roomActions/useCardDetailsRoomAction';
 import { useChannelSettingsRoomAction } from './hooks/roomActions/useChannelSettingsRoomAction';
 import { useCleanHistoryRoomAction } from './hooks/roomActions/useCleanHistoryRoomAction';
 import { useDiscussionsRoomAction } from './hooks/roomActions/useDiscussionsRoomAction';
@@ -47,6 +48,8 @@ export const roomActionHooks = [
 	useCannedResponsesRoomAction,
 	useCleanHistoryRoomAction,
 	useContactProfileRoomAction,
+	useCardDetailsMenuRoomAction,
+	useCardDetailsRoomAction,
 	useDiscussionsRoomAction,
 	useE2EERoomAction,
 	useExportMessagesRoomAction,

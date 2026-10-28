@@ -62,6 +62,7 @@ export const roomFields = {
 	fname: 1,
 	t: 1,
 	cl: 1,
+	cardId: 1,
 	u: 1,
 	lm: 1,
 	// usernames: 1,

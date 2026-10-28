@@ -1,7 +1,7 @@
 import { isOmnichannelRoom } from '@rocket.chat/core-typings';
-import { Icon, SidebarAction, SidebarActions, SidebarItemIcon } from '@rocket.chat/fuselage';
-import type { SubscriptionWithRoom } from '@rocket.chat/ui-contexts';
-import { useLayout, useSetting } from '@rocket.chat/ui-contexts';
+import { Box, Icon, SidebarAction, SidebarActions, SidebarItemIcon } from '@rocket.chat/fuselage';
+import type { LocationPathname, SubscriptionWithRoom } from '@rocket.chat/ui-contexts';
+import { useLayout, useRouter, useSetting } from '@rocket.chat/ui-contexts';
 import type { TFunction } from 'i18next';
 import type { AllHTMLAttributes, ComponentType, ReactNode } from 'react';
 import { memo, useMemo } from 'react';
@@ -85,27 +85,64 @@ const SidebarItemTemplateWithData = ({
 
 	const { lastMessage, unread = 0, alert, rid, t: type, cl } = room;
 
-	const icon = (
-		<SidebarItemIcon
-			highlighted={highlighted}
-			icon={<RoomIcon room={room} placement='sidebar' size='x20' isIncomingCall={Boolean(videoConfActions)} />}
-		/>
+	const roomIcon = <RoomIcon room={room} placement='sidebar' size='x20' isIncomingCall={Boolean(videoConfActions)} />;
+
+	// Direct messages show the presence dot on the avatar's bottom-right corner instead of beside the title.
+	const statusOnAvatar = room.t === 'd' && !videoConfActions;
+
+	const icon = statusOnAvatar ? undefined : <SidebarItemIcon highlighted={highlighted} icon={roomIcon} />;
+
+	const avatar = AvatarTemplate && (
+		<>
+			{statusOnAvatar ? (
+				<Box position='relative' display='inline-flex'>
+					<AvatarTemplate {...room} />
+					<Box position='absolute' insetInlineEnd={-2} insetBlockEnd={-2} display='flex'>
+						{roomIcon}
+					</Box>
+				</Box>
+			) : (
+				<AvatarTemplate {...room} />
+			)}
+		</>
 	);
 
 	const titleIcon = getSubscriptionDraft(room) ? (
 		<Icon name='pencil' size='x12' title={room.draft ? t('Unfinished_message') : t('Unfinished_thread_message')} />
 	) : undefined;
 
-	const actions = useMemo(
-		() =>
-			videoConfActions && (
+	const router = useRouter();
+	const { cardId } = room as typeof room & { cardId?: string };
+
+	const actions = useMemo(() => {
+		if (videoConfActions) {
+			return (
 				<SidebarActions>
 					<SidebarAction onClick={videoConfActions.acceptCall} mini secondary success icon='phone' />
 					<SidebarAction onClick={videoConfActions.rejectCall} mini secondary danger icon='phone-off' />
 				</SidebarActions>
-			),
-		[videoConfActions],
-	);
+			);
+		}
+
+		// Rooms that belong to an EMA card open its details panel from the list, as ROMEO's "Open Task" does.
+		if (cardId) {
+			return (
+				<SidebarActions>
+					<SidebarAction
+						mini
+						secondary
+						icon='check'
+						title={t('Exentriq_Card_Open_Task')}
+						onClick={(event) => {
+							event.preventDefault();
+							event.stopPropagation();
+							router.navigate(`${href}/card-detail` as LocationPathname);
+						}}
+					/>
+				</SidebarActions>
+			);
+		}
+	}, [videoConfActions, cardId, href, router, t]);
 
 	const isQueued = isOmnichannelRoom(room) && room.status === 'queued';
 	const { enabled: isPriorityEnabled } = useOmnichannelPriorities();
@@ -138,7 +175,7 @@ const SidebarItemTemplateWithData = ({
 			titleIcon={titleIcon}
 			style={style}
 			badges={<SidebarItemBadges room={room} roomTitle={title} />}
-			avatar={AvatarTemplate && <AvatarTemplate {...room} />}
+			avatar={avatar}
 			actions={actions}
 			menu={
 				!isIOsDevice && !isAnonymous && (!isQueued || (isQueued && isPriorityEnabled))
