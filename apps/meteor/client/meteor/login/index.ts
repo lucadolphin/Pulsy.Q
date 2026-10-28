@@ -1,5 +1,6 @@
 import './cas';
 import './crowd';
+import './exentriq';
 import './facebook';
 import './google';
 import './ldap';

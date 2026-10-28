@@ -60,8 +60,13 @@ const getLoggingInSnapshot = (): boolean => Accounts.loggingIn();
 const AuthenticationProvider = ({ children }: AuthenticationProviderProps) => {
 	const isLdapEnabled = useSetting('LDAP_Enable', false);
 	const isCrowdEnabled = useSetting('CROWD_Enable', false);
+	const isExentriqEnabled = useSetting('Exentriq_Login_Enabled', false);
 
-	const loginMethod: LoginMethods = (isLdapEnabled && 'loginWithLDAP') || (isCrowdEnabled && 'loginWithCrowd') || 'loginWithPassword';
+	const loginMethod: LoginMethods =
+		(isExentriqEnabled && 'loginWithExentriq') ||
+		(isLdapEnabled && 'loginWithLDAP') ||
+		(isCrowdEnabled && 'loginWithCrowd') ||
+		'loginWithPassword';
 
 	useLDAPAndCrowdCollisionWarning();
 

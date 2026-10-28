@@ -97,6 +97,24 @@ export const createAccountSettings = () =>
 		});
 		const enableQueryCollectData = { _id: 'Block_Multiple_Failed_Logins_Enabled', value: true };
 
+		await this.section('Exentriq_Login', async function () {
+			await this.add('Exentriq_Login_Enabled', true, {
+				type: 'boolean',
+				public: true,
+				i18nDescription: 'Exentriq_Login_EnabledDescription',
+			});
+			await this.add('Exentriq_EMA_Url', '', {
+				type: 'string',
+				public: true,
+				i18nDescription: 'Exentriq_EMA_UrlDescription',
+			});
+			await this.add('Exentriq_Login_Create_Users', true, {
+				type: 'boolean',
+				i18nDescription: 'Exentriq_Login_Create_UsersDescription',
+				enableQuery: { _id: 'Exentriq_Login_Enabled', value: true },
+			});
+		});
+
 		await this.section('Login_Attempts', async function () {
 			await this.add('Block_Multiple_Failed_Logins_Enabled', true, {
 				type: 'boolean',
