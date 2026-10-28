@@ -108,6 +108,7 @@
 		"@rocket.chat/css-supports": "workspace:~",
 		"@rocket.chat/ddp-client": "workspace:^",
 		"@rocket.chat/emitter": "workspace:~",
+		"@rocket.chat/exentriq-entity": "workspace:^",
 		"@rocket.chat/favicon": "workspace:^",
 		"@rocket.chat/federation-matrix": "workspace:^",
 		"@rocket.chat/federation-sdk": "0.8.1",

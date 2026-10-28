@@ -1,5 +1,6 @@
 import type { IMessage } from '@rocket.chat/core-typings';
-import { Box, Message, MessageLeftContainer, MessageContainer, CheckBox } from '@rocket.chat/fuselage';
+import { EntityBubble } from '@rocket.chat/exentriq-entity';
+import { Message, MessageLeftContainer, MessageContainer, CheckBox } from '@rocket.chat/fuselage';
 import { useToggle } from '@rocket.chat/fuselage-hooks';
 import { MessageAvatar } from '@rocket.chat/ui-avatar';
 import { useUserId, useUserCard, useSetting } from '@rocket.chat/ui-contexts';
@@ -20,7 +21,6 @@ import IgnoredContent from '../IgnoredContent';
 import MessageHeader from '../MessageHeader';
 import MessageToolbarHolder from '../MessageToolbarHolder';
 import StatusIndicators from '../StatusIndicators';
-import { getBubbleClassName } from './bubbleStyles';
 import BubbleMessageFooter from './room/BubbleMessageFooter';
 import RoomMessageContent from './room/RoomMessageContent';
 import { getCheckboxLabel } from '../helpers/getCheckboxLabel';
@@ -153,7 +153,7 @@ const RoomMessage = ({
 		</Message>
 	);
 
-	return bubblesEnabled ? <Box className={getBubbleClassName(own)}>{row}</Box> : row;
+	return bubblesEnabled ? <EntityBubble own={own}>{row}</EntityBubble> : row;
 };
 
 export default memo(RoomMessage);
