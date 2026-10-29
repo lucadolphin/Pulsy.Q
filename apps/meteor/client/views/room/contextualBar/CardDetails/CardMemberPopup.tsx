@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
 
 import CardAvatar from './CardAvatar';
+import CardIconButton from './CardIconButton';
 import { cardStyles } from './cardStyles';
 
 type CardMemberPopupProps = {
@@ -23,7 +24,7 @@ type CardMemberPopupProps = {
 const WIDTH = 300;
 const GAP = 8;
 
-/** ROMEO's member card: a large picture, the name, "Send a message", "Start a call" and, for people who may, "Remove". */
+/** ROMEO's member card: a large picture, the name and round icon buttons: send a message, start a call and, for people who may, remove. */
 const CardMemberPopup = ({
 	name,
 	username,
@@ -55,7 +56,7 @@ const CardMemberPopup = ({
 
 	// Beside the avatar, on the left when there is room (as ROMEO's `left-start`), otherwise on the right; always inside the window.
 	const left = anchor.left - WIDTH - GAP >= GAP ? anchor.left - WIDTH - GAP : Math.min(anchor.right + GAP, window.innerWidth - WIDTH - GAP);
-	const top = Math.max(GAP, Math.min(anchor.top, window.innerHeight - 340));
+	const top = Math.max(GAP, Math.min(anchor.top, window.innerHeight - 280));
 
 	return createPortal(
 		<Box ref={ref} className={[cardStyles.memberPopup]} style={{ left, top }} role='dialog' aria-label={name}>
@@ -63,21 +64,11 @@ const CardMemberPopup = ({
 				<CardAvatar username={username} fill />
 			</Box>
 			<Box className={[cardStyles.memberPopupTitle]}>{name}</Box>
-			{!isSelf && (
-				<>
-					<Box is='button' type='button' className={[cardStyles.memberPopupButton]} onClick={onSendMessage}>
-						{t('Exentriq_Card_Send_message')}
-					</Box>
-					<Box is='button' type='button' className={[cardStyles.memberPopupButton]} onClick={onStartCall}>
-						{t('Exentriq_Card_Start_call')}
-					</Box>
-				</>
-			)}
-			{canRemove && (
-				<Box is='button' type='button' className={[cardStyles.memberPopupRemove]} onClick={onRemove}>
-					{t('Exentriq_Card_Remove')}
-				</Box>
-			)}
+			<Box className={[cardStyles.memberPopupActions]}>
+				{!isSelf && <CardIconButton icon='balloon' label={t('Exentriq_Card_Send_message')} onClick={onSendMessage} />}
+				{!isSelf && <CardIconButton icon='phone' label={t('Exentriq_Card_Start_call')} onClick={onStartCall} />}
+				{canRemove && <CardIconButton icon='trash' tone='danger' label={t('Exentriq_Card_Remove')} onClick={onRemove} />}
+			</Box>
 		</Box>,
 		document.body,
 	);

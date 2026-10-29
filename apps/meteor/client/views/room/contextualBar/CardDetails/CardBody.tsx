@@ -5,10 +5,12 @@ import { useTranslation } from 'react-i18next';
 import CardActivityModal from './CardActivityModal';
 import CardAttachments from './CardAttachments';
 import CardCalendar from './CardCalendar';
+import CardColorPicker from './CardColorPicker';
 import CardConfirmModal from './CardConfirmModal';
 import CardDescription from './CardDescription';
 import CardEditable from './CardEditable';
 import CardHeader from './CardHeader';
+import { CardIdContext } from './CardIdContext';
 import CardLabels from './CardLabels';
 import CardLinks from './CardLinks';
 import CardListChoice from './CardListChoice';
@@ -19,7 +21,6 @@ import CardPeople from './CardPeople';
 import CardTasks from './CardTasks';
 import CardTop from './CardTop';
 import { cardStyles } from './cardStyles';
-import { LABEL_COLORS } from './labelColors';
 import type { EmaCard } from '../../../../lib/exentriq/ema/emaConnection';
 import { formatCardDateTime } from '../../../../lib/exentriq/ema/formatCardDate';
 import type { EmaCardData } from '../../../../lib/exentriq/ema/useEmaCard';
@@ -28,10 +29,17 @@ import { useEmaCardActions } from '../../../../lib/exentriq/ema/useEmaCardAction
 import { useEmaCustomer } from '../../../../lib/exentriq/ema/useEmaCustomer';
 import type { EmaPerson } from '../../../../lib/exentriq/ema/useEmaUserSearch';
 
-type CardBodyProps = { data: EmaCardData; onClose: () => void };
+type CardBodyProps = {
+	data: EmaCardData;
+	onClose: () => void;
+	/** Shown when this card was opened from another one: goes back to it. */
+	onBack?: () => void;
+	/** Opens another card (a task of this one) in the panel. */
+	onOpenCard: (cardId: string) => void;
+};
 
 /** The card as ROMEO's `entity-detail` lays it out, top to bottom, editable for people with write access in EMA. */
-const CardBody = ({ data, onClose }: CardBodyProps) => {
+const CardBody = ({ data, onClose, onBack, onOpenCard }: CardBodyProps) => {
 	const { t } = useTranslation();
 	const { card, canEdit, users, taskLists, approvalLists, events, labels, boardLabels, boardId, canManageLabels, attachments } = data;
 	const { meta = {}, parents = [] } = card;
@@ -104,7 +112,7 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 	const itemsCount = meta.itemsCount ?? allLists.reduce((sum, list) => sum + list.items.length, 0);
 
 	return (
-		<>
+		<CardIdContext.Provider value={card._id}>
 			<CardHeader
 				color={meta.color as string | undefined}
 				billable={!!meta.isBillable}
@@ -117,6 +125,7 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 				onToggleCompleted={() => main && complete(card._id, main.id, !completed)}
 				onArchive={() => setDialog('archive')}
 				onClose={onClose}
+				onBack={onBack}
 			/>
 			<Box className={[cardStyles.body]}>
 				{dialog === 'activity' && (
@@ -124,22 +133,13 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 				)}
 				{dialog === 'color' && (
 					<CardModal title={t('Exentriq_Card_Change_color')} onClose={() => setDialog(undefined)}>
-						<Box className={[cardStyles.swatches]}>
-							{Object.entries(LABEL_COLORS).map(([name, hex]) => (
-								<Box
-									key={name}
-									is='button'
-									type='button'
-									className={[cardStyles.swatch]}
-									style={{ background: hex }}
-									aria-label={name}
-									onClick={() => {
-										setDialog(undefined);
-										void save('meta.color', hex);
-									}}
-								/>
-							))}
-						</Box>
+						<CardColorPicker
+							defaultValue={(meta.color as string | undefined) ?? '#08858b'}
+							onSave={(hex) => {
+								setDialog(undefined);
+								void save('meta.color', hex);
+							}}
+						/>
 					</CardModal>
 				)}
 				{dialog === 'archive' && (
@@ -225,8 +225,12 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 					onArchiveList={(listId) => void run(() => actions.archiveList(listId, main?.id))}
 					onSetListKind={(listId, kind, on) => void run(() => actions.setListKind(listId, kind, on))}
 					onCopyTaskLink={(task) => void copyLink(task._id)}
-					onRenameTask={(task, title) => void run(() => actions.renameEntity(task._id, title))}
-					onArchiveTask={(task) => void run(() => actions.archiveEntity(task._id, card._id))}
+					boardLabels={boardLabels}
+					onOpenTask={(task) => onOpenCard(task._id)}
+					onMoveToList={(task, fromListId, toListId) => main && void run(() => actions.moveToList(task._id, main.id, fromListId, toListId))}
+					onAliasInList={(task, toListId) => main && void run(() => actions.aliasInList(task._id, main.id, toListId))}
+					onToggleTaskLabel={(task, labelId) => void run(() => actions.toggleEntityLabel(task._id, labelId))}
+					onArchiveTask={(task, listId) => void run(() => actions.archiveEntity(task._id, card._id, listId))}
 					onMoveTask={(task, fromListId, toListId, sort) => void run(() => actions.moveTask(task, fromListId, toListId, sort))}
 				/>
 				<CardLabels
@@ -267,8 +271,12 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 					onArchiveList={(listId) => void run(() => actions.archiveList(listId, main?.id))}
 					onSetListKind={(listId, kind, on) => void run(() => actions.setListKind(listId, kind, on))}
 					onCopyTaskLink={(task) => void copyLink(task._id)}
-					onRenameTask={(task, title) => void run(() => actions.renameEntity(task._id, title))}
-					onArchiveTask={(task) => void run(() => actions.archiveEntity(task._id, card._id))}
+					boardLabels={boardLabels}
+					onOpenTask={(task) => onOpenCard(task._id)}
+					onMoveToList={(task, fromListId, toListId) => main && void run(() => actions.moveToList(task._id, main.id, fromListId, toListId))}
+					onAliasInList={(task, toListId) => main && void run(() => actions.aliasInList(task._id, main.id, toListId))}
+					onToggleTaskLabel={(task, labelId) => void run(() => actions.toggleEntityLabel(task._id, labelId))}
+					onArchiveTask={(task, listId) => void run(() => actions.archiveEntity(task._id, card._id, listId))}
 					onMoveTask={(task, fromListId, toListId, sort) => void run(() => actions.moveTask(task, fromListId, toListId, sort))}
 				/>
 				<CardAttachments
@@ -281,7 +289,7 @@ const CardBody = ({ data, onClose }: CardBodyProps) => {
 					onRemove={(attachment) => void run(() => actions.removeAttachment(attachment._id))}
 				/>
 			</Box>
-		</>
+		</CardIdContext.Provider>
 	);
 };
 

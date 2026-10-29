@@ -1,5 +1,6 @@
 import { Box, Callout, Throbber } from '@rocket.chat/fuselage';
 import { ContextualbarDialog } from '@rocket.chat/ui-client';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import CardBody from './CardBody';
@@ -24,13 +25,24 @@ const NO_ACTIONS = {
 /** The EMA card a room belongs to, laid out like ROMEO's "Open Task" panel. Read-only for now. */
 const CardDetails = ({ cardId, onClose }: CardDetailsProps) => {
 	const { t } = useTranslation();
-	const state = useEmaCard(cardId);
+	// Opening a task from the lists shows it in the same panel; the arrow in the header goes back one step.
+	const [trail, setTrail] = useState<string[]>([]);
+	const currentId = trail.at(-1) ?? cardId;
+	const state = useEmaCard(currentId);
+
+	useEffect(() => setTrail([]), [cardId]);
 
 	return (
 		<ContextualbarDialog>
 			<Box className={[cardStyles.root]}>
 				{state.status === 'ready' ? (
-					<CardBody data={state} onClose={onClose} />
+					<CardBody
+						key={currentId}
+						data={state}
+						onClose={onClose}
+						onBack={trail.length ? () => setTrail(trail.slice(0, -1)) : undefined}
+						onOpenCard={(id) => setTrail([...trail, id])}
+					/>
 				) : (
 					<>
 						<CardHeader billable={false} canEdit={false} completed={false} {...NO_ACTIONS} onClose={onClose} />

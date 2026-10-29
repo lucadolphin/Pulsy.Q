@@ -6,7 +6,7 @@ import CardBlock from './CardBlock';
 import CardTaskList from './CardTaskList';
 import { cardStyles } from './cardStyles';
 import { sortBetween } from './taskSort';
-import type { EmaCard } from '../../../../lib/exentriq/ema/emaConnection';
+import type { EmaCard, EmaLabel } from '../../../../lib/exentriq/ema/emaConnection';
 import type { EmaListWithItems } from '../../../../lib/exentriq/ema/useEmaCard';
 
 type CardTasksProps = {
@@ -22,9 +22,13 @@ type CardTasksProps = {
 	onRenameList: (listId: string, title: string) => void;
 	onArchiveList: (listId: string) => void;
 	onSetListKind: (listId: string, kind: 'default' | 'done', on: boolean) => void;
+	boardLabels: EmaLabel[];
 	onCopyTaskLink: (task: EmaCard) => void;
-	onRenameTask: (task: EmaCard, title: string) => void;
-	onArchiveTask: (task: EmaCard) => void;
+	onOpenTask: (task: EmaCard) => void;
+	onMoveToList: (task: EmaCard, fromListId: string, toListId: string) => void;
+	onAliasInList: (task: EmaCard, toListId: string) => void;
+	onToggleTaskLabel: (task: EmaCard, labelId: string) => void;
+	onArchiveTask: (task: EmaCard, listId: string) => void;
 	onMoveTask: (task: EmaCard, fromListId: string, toListId: string, sort: number) => void;
 };
 
@@ -43,8 +47,12 @@ const CardTasks = ({
 	onRenameList,
 	onArchiveList,
 	onSetListKind,
+	boardLabels,
 	onCopyTaskLink,
-	onRenameTask,
+	onOpenTask,
+	onMoveToList,
+	onAliasInList,
+	onToggleTaskLabel,
 	onArchiveTask,
 	onMoveTask,
 }: CardTasksProps) => {
@@ -77,7 +85,10 @@ const CardTasks = ({
 	const addLabel = approval ? t('Exentriq_Card_Add_group') : t('Exentriq_Card_Add_tasklist');
 
 	return (
-		<CardBlock label={approval ? t('Exentriq_Card_Approvals') : `${t('Exentriq_Card_Tasks')} (${itemsCount}/${completedCount})`}>
+		<CardBlock
+			id={approval ? 'approvals' : 'tasks'}
+			label={approval ? t('Exentriq_Card_Approvals') : `${t('Exentriq_Card_Tasks')} (${itemsCount}/${completedCount})`}
+		>
 			<Box className={[cardStyles.stack]}>
 				{lists.map((list) => (
 					<CardTaskList
@@ -90,8 +101,13 @@ const CardTasks = ({
 						onRename={onRenameList}
 						onArchive={onArchiveList}
 						onSetKind={onSetListKind}
+						targets={lists.filter((other) => other._id !== list._id).map(({ _id, title }) => ({ _id, title }))}
+						boardLabels={boardLabels}
 						onCopyTaskLink={onCopyTaskLink}
-						onRenameTask={onRenameTask}
+						onOpenTask={onOpenTask}
+						onMoveToList={onMoveToList}
+						onAliasInList={onAliasInList}
+						onToggleTaskLabel={onToggleTaskLabel}
 						onArchiveTask={onArchiveTask}
 						draggedTask={dragged?.task}
 						dropTarget={dropTarget}

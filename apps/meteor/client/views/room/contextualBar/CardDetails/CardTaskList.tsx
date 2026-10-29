@@ -7,9 +7,11 @@ import CardAddItem from './CardAddItem';
 import CardConfirmModal from './CardConfirmModal';
 import CardMenuButton from './CardMenuButton';
 import CardPromptModal from './CardPromptModal';
+import CardTargetPicker from './CardTargetPicker';
 import CardTaskItem from './CardTaskItem';
+import CardTaskLabels from './CardTaskLabels';
 import { cardStyles } from './cardStyles';
-import type { EmaCard } from '../../../../lib/exentriq/ema/emaConnection';
+import type { EmaCard, EmaLabel } from '../../../../lib/exentriq/ema/emaConnection';
 import type { EmaListWithItems } from '../../../../lib/exentriq/ema/useEmaCard';
 
 type CardTaskListProps = {
@@ -22,9 +24,16 @@ type CardTaskListProps = {
 	onArchive: (listId: string) => void;
 	/** Marks the list as the default one, or as a done list, or takes that off. */
 	onSetKind: (listId: string, kind: 'default' | 'done', on: boolean) => void;
+	/** The lists of the card besides this one: where a task can be moved to or aliased in. */
+	targets: { _id: string; title: string }[];
+	boardLabels: EmaLabel[];
 	onCopyTaskLink: (task: EmaCard) => void;
-	onRenameTask: (task: EmaCard, title: string) => void;
-	onArchiveTask: (task: EmaCard) => void;
+	/** Opens the task's own detail in the panel, as "Edit details" does in ROMEO. */
+	onOpenTask: (task: EmaCard) => void;
+	onMoveToList: (task: EmaCard, fromListId: string, toListId: string) => void;
+	onAliasInList: (task: EmaCard, toListId: string) => void;
+	onToggleTaskLabel: (task: EmaCard, labelId: string) => void;
+	onArchiveTask: (task: EmaCard, listId: string) => void;
 	/** The task being dragged, and where it would land: undefined `beforeTaskId` means the end of the list. */
 	draggedTask?: EmaCard;
 	dropTarget?: { listId: string; beforeTaskId?: string };
@@ -44,8 +53,13 @@ const CardTaskList = ({
 	onRename,
 	onArchive,
 	onSetKind,
+	targets,
+	boardLabels,
 	onCopyTaskLink,
-	onRenameTask,
+	onOpenTask,
+	onMoveToList,
+	onAliasInList,
+	onToggleTaskLabel,
 	onArchiveTask,
 	draggedTask,
 	dropTarget,
@@ -55,13 +69,18 @@ const CardTaskList = ({
 	onDrop,
 }: CardTaskListProps) => {
 	const { t } = useTranslation();
-	const [dialog, setDialog] = useState<{ kind: 'renameList' } | { kind: 'renameTask' | 'archiveTask'; task: EmaCard }>();
+	const [dialog, setDialog] = useState<
+		{ kind: 'renameList' } | { kind: 'archiveTask' | 'moveTask' | 'aliasTask' | 'labelTask'; task: EmaCard }
+	>();
 	const isClosed = (task: EmaCard) => !!task.parents?.some((parent) => parent.listId === list._id && parent.closed);
 	const taskMenu = (task: EmaCard) =>
 		canEdit
 			? {
 					link: { label: t('Exentriq_Card_Copy_link'), action: () => onCopyTaskLink(task) },
-					edit: { label: t('Exentriq_Card_Edit_details'), action: () => setDialog({ kind: 'renameTask', task }) },
+					edit: { label: t('Exentriq_Card_Edit_details'), action: () => onOpenTask(task) },
+					alias: { label: t('Exentriq_Card_Create_alias'), action: () => setDialog({ kind: 'aliasTask', task }) },
+					move: { label: t('Exentriq_Card_Move'), action: () => setDialog({ kind: 'moveTask', task }) },
+					label: { label: t('Exentriq_Card_Add_label'), action: () => setDialog({ kind: 'labelTask', task }) },
 					archive: { label: t('Exentriq_Card_Archive'), action: () => setDialog({ kind: 'archiveTask', task }) },
 				}
 			: undefined;
@@ -175,14 +194,33 @@ const CardTaskList = ({
 					onClose={() => setDialog(undefined)}
 				/>
 			)}
-			{dialog?.kind === 'renameTask' && (
-				<CardPromptModal
-					title={t('Exentriq_Card_Edit_details')}
-					initial={dialog.task.title}
-					onSave={(title) => {
-						onRenameTask(dialog.task, title);
+			{dialog?.kind === 'moveTask' && (
+				<CardTargetPicker
+					title={t('Exentriq_Card_Move')}
+					lists={targets}
+					onPick={(toListId) => {
+						onMoveToList(dialog.task, list._id, toListId);
 						setDialog(undefined);
 					}}
+					onClose={() => setDialog(undefined)}
+				/>
+			)}
+			{dialog?.kind === 'aliasTask' && (
+				<CardTargetPicker
+					title={t('Exentriq_Card_Create_alias')}
+					lists={targets}
+					onPick={(toListId) => {
+						onAliasInList(dialog.task, toListId);
+						setDialog(undefined);
+					}}
+					onClose={() => setDialog(undefined)}
+				/>
+			)}
+			{dialog?.kind === 'labelTask' && (
+				<CardTaskLabels
+					boardLabels={boardLabels}
+					selected={dialog.task.meta?.labels ?? []}
+					onToggle={(labelId) => onToggleTaskLabel(dialog.task, labelId)}
 					onClose={() => setDialog(undefined)}
 				/>
 			)}
@@ -191,7 +229,7 @@ const CardTaskList = ({
 					title={t('Exentriq_Card_Archive_activity')}
 					message={t('Exentriq_Card_Archive_activity_confirm', { name: dialog.task.title })}
 					onConfirm={() => {
-						onArchiveTask(dialog.task);
+						onArchiveTask(dialog.task, list._id);
 						setDialog(undefined);
 					}}
 					onClose={() => setDialog(undefined)}

@@ -52,7 +52,13 @@ export type EmaCardActions = {
 	/** Changes the title of a task (any entity of EMA). */
 	renameEntity(entityId: string, title: string): Promise<void>;
 	/** Archives a task or the card, inside the board it is being seen from. */
-	archiveEntity(entityId: string, boardId?: string): Promise<void>;
+	archiveEntity(entityId: string, boardId?: string, listId?: string): Promise<void>;
+	/** Moves a task to another list, as ROMEO's "Move" does, leaving no copy behind. */
+	moveToList(taskId: string, boardId: string, fromListId: string, toListId: string): Promise<void>;
+	/** Puts a task in another list too, as ROMEO's "Create Alias" does: the same task shows in both. */
+	aliasInList(taskId: string, boardId: string, toListId: string): Promise<void>;
+	/** Puts a label on a task, or takes it off when it is already there. */
+	toggleEntityLabel(entityId: string, labelId: string): Promise<void>;
 	/** The link into EMA of a task, as ROMEO copies it. */
 	getLink(entityId: string): Promise<string | undefined>;
 	/** The EMA id of a person known here by username, or undefined when EMA does not know them. */
@@ -265,9 +271,28 @@ export const useEmaCardActions = (cardId: string): EmaCardActions => {
 
 			renameEntity: (entityId, title) => update('entity', entityId, { $set: { title } }),
 
-			async archiveEntity(entityId, boardId) {
+			async archiveEntity(entityId, boardId, listId) {
 				const { connection } = await connectEma(url);
-				await connection.callAsync('archiveCard', entityId, boardId);
+				await connection.callAsync('archiveCard', entityId, boardId, undefined, listId);
+			},
+
+			async moveToList(taskId, boardId, fromListId, toListId) {
+				const { connection } = await connectEma(url);
+				await connection.callAsync('Cards.move', {
+					type: 'card',
+					id: [boardId, toListId],
+					context: { cardId: taskId, listId: fromListId },
+				});
+			},
+
+			async aliasInList(taskId, boardId, toListId) {
+				const { connection } = await connectEma(url);
+				await connection.callAsync('Cards.alias', { type: 'card', id: [boardId, toListId], context: { cardId: taskId } });
+			},
+
+			async toggleEntityLabel(entityId, labelId) {
+				const { connection } = await connectEma(url);
+				await connection.callAsync('toggleCardLabel', entityId, labelId);
 			},
 
 			async getLink(entityId) {

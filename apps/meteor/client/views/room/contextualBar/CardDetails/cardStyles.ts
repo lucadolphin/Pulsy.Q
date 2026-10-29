@@ -1,5 +1,7 @@
 import { css } from '@rocket.chat/css-in-js';
 
+import { registerCardFonts } from './cardFonts';
+
 /** Design tokens of ROMEO's card detail (Exentriq-MSP/packages/ui-kit/css/variables-exentriq.css). */
 const PRIMARY = '#1bbc9b';
 const TEXT = '#4a4a4a';
@@ -9,7 +11,18 @@ const RED = '#f3565d';
 const ORANGE = '#ff6b00';
 const HEADER_TEAL = '#3f9199';
 const SHADOW = '2px 2px 10px 0 #0000001a';
-const FONT = "Roboto, 'Open Sans', -apple-system, 'Segoe UI', sans-serif";
+const FONT = "Roboto, -apple-system, 'Segoe UI', sans-serif";
+
+registerCardFonts();
+
+/** Fuselage's `Box` sets its own font family (Inter), which beats inheritance: set Roboto on the boxes inside the panel and its windows, but not on icons. */
+const ROBOTO = `
+	font-family: ${FONT};
+
+	& .rcx-box:not(.rcx-icon) {
+		font-family: ${FONT};
+	}
+`;
 
 export const cardStyles = {
 	root: css`
@@ -19,7 +32,7 @@ export const cardStyles = {
 		min-height: 0;
 		background: #fff;
 		color: ${TEXT};
-		font-family: ${FONT};
+		${ROBOTO}
 	`,
 	header: css`
 		display: flex;
@@ -31,10 +44,110 @@ export const cardStyles = {
 		background: ${HEADER_TEAL};
 		color: #fff;
 	`,
+	markdown: css`
+		color: ${TEXT};
+		font-size: 14px;
+		line-height: 1.5;
+		overflow-wrap: anywhere;
+
+		& > :first-child {
+			margin-block-start: 0;
+		}
+
+		& > :last-child {
+			margin-block-end: 0;
+		}
+
+		& p,
+		& ul,
+		& ol,
+		& blockquote,
+		& pre {
+			margin: 0 0 8px;
+		}
+
+		& h1,
+		& h2,
+		& h3,
+		& h4 {
+			margin: 12px 0 8px;
+			font-weight: 600;
+			line-height: 1.25;
+		}
+
+		& h1 {
+			font-size: 20px;
+		}
+
+		& h2 {
+			font-size: 18px;
+		}
+
+		& h3,
+		& h4 {
+			font-size: 16px;
+		}
+
+		& ul,
+		& ol {
+			padding-inline-start: 24px;
+		}
+
+		& ul {
+			list-style: disc;
+		}
+
+		& ol {
+			list-style: decimal;
+		}
+
+		& a {
+			color: ${PRIMARY};
+			text-decoration: underline;
+		}
+
+		& blockquote {
+			padding-inline-start: 12px;
+			border-inline-start: 3px solid ${TEXT_LIGHT};
+			color: ${TEXT_LIGHT};
+		}
+
+		& code {
+			padding: 1px 4px;
+			background: #ececec;
+			border-radius: 4px;
+			font-size: 13px;
+		}
+
+		& pre {
+			padding: 8px;
+			overflow-x: auto;
+			background: #ececec;
+			border-radius: 8px;
+		}
+
+		& pre code {
+			padding: 0;
+			background: transparent;
+		}
+
+		& img {
+			max-width: 100%;
+		}
+
+		& hr {
+			border: 0;
+			border-block-start: 1px solid #dddddd;
+		}
+	`,
 	menuDots: css`
 		display: inline-flex;
 		flex: 0 0 auto;
 		color: ${TEXT};
+
+		& button {
+			border-radius: 50% !important;
+		}
 
 		& button,
 		& .rcx-icon {
@@ -250,7 +363,7 @@ export const cardStyles = {
 		font-size: 32px;
 		font-weight: 400;
 		line-height: 1.2;
-		font-family: 'Open Sans', ${FONT};
+		font-family: ${FONT};
 		overflow-wrap: anywhere;
 	`,
 	created: css`
@@ -449,10 +562,17 @@ export const cardStyles = {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		width: 24px;
-		height: 24px;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
 		color: ${TEXT_LIGHT};
 		cursor: pointer;
+		transition: background 0.15s ease-in-out;
+
+		&:hover,
+		&:focus-visible {
+			background: rgba(74, 74, 74, 0.12);
+		}
 
 		svg {
 			width: 24px;
@@ -489,7 +609,7 @@ export const cardStyles = {
 		margin: 24px 0 16px;
 		font-size: 20px;
 		font-weight: 400;
-		font-family: 'Open Sans', ${FONT};
+		font-family: ${FONT};
 	`,
 	dropZone: css`
 		display: flex;
@@ -656,9 +776,11 @@ export const cardStyles = {
 		margin-block-start: 8vh;
 		overflow-y: auto;
 		background: #fff;
-		border-radius: 16px;
+		border-radius: 8px;
 		color: ${TEXT};
-		font-family: ${FONT};
+		${ROBOTO}
+		font-size: 16px;
+		font-weight: 400;
 		box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
 	`,
 	modalStep: css`
@@ -680,27 +802,207 @@ export const cardStyles = {
 		display: flex;
 		align-items: center;
 		justify-content: space-between;
-		padding: 16px 32px;
+		padding: 16px;
 		border-block-end: 1px solid #eeeeee;
-		font-size: 32px;
+		font-size: 24px;
 		font-weight: 600;
-
-		@media (max-width: 600px) {
-			padding: 12px 16px;
-			font-size: 24px;
-		}
+		line-height: 1.2;
 	`,
 	modalBody: css`
-		padding: 16px 32px;
+		padding: 16px;
+		font-size: 16px;
+		font-weight: 400;
+	`,
+	modalFlush: css`
+		padding: 0;
+	`,
+	trackerTotal: css`
+		padding: 8px 16px;
+		background: ${LIGHT_GREY};
+		border-block: 1px solid #eeeeee;
+		font-size: 14px;
+		font-weight: 600;
+	`,
+	trackerTabs: css`
+		display: flex;
+	`,
+	trackerTab: css`
+		all: unset;
+		box-sizing: border-box;
+		display: flex;
+		flex: 1;
+		align-items: center;
+		justify-content: center;
+		gap: 8px;
+		padding: 16px 0;
+		border-block-end: 2px solid transparent;
+		cursor: pointer;
+	`,
+	trackerTabActive: css`
+		border-block-end-color: ${PRIMARY};
+	`,
+	trackerPlus: css`
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 24px;
+		height: 24px;
+		background: ${TEXT};
+		border-radius: 50%;
+		color: #fff;
+	`,
+	trackerSection: css`
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 16px;
+		padding: 16px;
 
-		@media (max-width: 600px) {
-			padding: 12px 16px;
+		& > * {
+			align-self: stretch;
+		}
+
+		& > button {
+			align-self: flex-start;
+		}
+	`,
+	trackerHistory: css`
+		padding: 0 16px 16px;
+	`,
+	trackerItem: css`
+		margin-block-end: 8px;
+		padding: 16px;
+		border: 1px solid #eeeeee;
+		border-radius: 8px;
+	`,
+	trackerUser: css`
+		font-size: 16px;
+		font-weight: 600;
+	`,
+	trackerDescription: css`
+		margin-block-start: 8px;
+		font-size: 14px;
+		overflow-wrap: anywhere;
+	`,
+	eml: css`
+		display: flex;
+		align-items: flex-end;
+		gap: 8px;
+	`,
+	emlField: css`
+		box-sizing: border-box;
+		display: flex;
+		flex: 1;
+		align-items: flex-start;
+		gap: 4px;
+		min-width: 0;
+		padding: 8px 12px;
+		background: #fff;
+		border: 1px solid #e5e5e5;
+		border-radius: 12px;
+
+		&:focus-within {
+			border-color: ${PRIMARY};
+		}
+	`,
+	emlInvalid: css`
+		border-color: ${RED} !important;
+	`,
+	emlClip: css`
+		flex: 0 0 auto;
+		color: ${TEXT_LIGHT};
+		margin-block-start: 2px;
+	`,
+	emlText: css`
+		all: unset;
+		box-sizing: border-box;
+		flex: 1;
+		min-width: 0;
+		min-height: 28px;
+		padding: 2px 0;
+		color: ${TEXT};
+		font: inherit;
+		font-size: 16px;
+		line-height: 24px;
+		overflow-y: auto;
+		white-space: pre-wrap;
+		overflow-wrap: anywhere;
+		resize: none;
+
+		&::placeholder {
+			color: ${TEXT_LIGHT};
+		}
+	`,
+	emlSend: css`
+		all: unset;
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: center;
+		width: 40px;
+		height: 40px;
+		margin-block-end: 2px;
+		color: ${PRIMARY};
+		cursor: pointer;
+
+		svg {
+			width: 32px;
+			height: 32px;
+			fill: currentColor;
 		}
 	`,
 	modalFooter: css`
 		display: flex;
 		justify-content: flex-end;
-		padding: 16px 32px;
+		padding: 16px;
+	`,
+	picker: css`
+		box-sizing: border-box;
+		margin-block-end: 16px;
+		padding: 16px;
+		background: #fff;
+		border-radius: 12px;
+		box-shadow: ${SHADOW};
+	`,
+	pickerArea: css`
+		position: relative;
+		height: 160px;
+		border-radius: 8px;
+		cursor: crosshair;
+		touch-action: none;
+	`,
+	pickerHandle: css`
+		position: absolute;
+		width: 18px;
+		height: 18px;
+		box-sizing: border-box;
+		border: 3px solid #fff;
+		border-radius: 50%;
+		box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
+		transform: translate(-50%, -50%);
+		pointer-events: none;
+	`,
+	pickerRow: css`
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		margin-block-start: 16px;
+	`,
+	pickerHue: css`
+		position: relative;
+		flex: 1;
+		height: 12px;
+		border-radius: 6px;
+		background: linear-gradient(to right, #f00 0%, #ff0 17%, #0f0 33%, #0ff 50%, #00f 67%, #f0f 83%, #f00 100%);
+		cursor: pointer;
+		touch-action: none;
+	`,
+	pickerPreview: css`
+		flex: 0 0 auto;
+		width: 40px;
+		height: 40px;
+		border: 1px solid rgba(0, 0, 0, 0.1);
+		border-radius: 8px;
 	`,
 	swatches: css`
 		display: flex;
@@ -747,7 +1049,7 @@ export const cardStyles = {
 		padding: 12px 16px;
 		color: ${TEXT};
 		font: inherit;
-		font-size: 18px;
+		font-size: 16px;
 		background: #fff;
 		border: 2px solid ${PRIMARY};
 		border-radius: 12px;
@@ -795,7 +1097,7 @@ export const cardStyles = {
 		border-radius: 8px;
 		box-shadow: ${SHADOW};
 		text-align: center;
-		font-family: ${FONT};
+		${ROBOTO}
 		color: ${TEXT};
 	`,
 	memberPopupAvatar: css`
@@ -835,6 +1137,42 @@ export const cardStyles = {
 		font-size: 16px;
 		text-align: center;
 		cursor: pointer;
+	`,
+	iconButton: css`
+		all: unset;
+		box-sizing: border-box;
+		display: inline-flex;
+		flex: 0 0 auto;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: box-shadow 0.15s ease-in-out;
+
+		&:hover {
+			box-shadow: 0 0 0 3px rgba(74, 74, 74, 0.15);
+		}
+	`,
+	iconButtonPrimary: css`
+		background: ${PRIMARY};
+		color: #fff;
+	`,
+	iconButtonDanger: css`
+		background: #fdecec;
+		color: ${RED};
+	`,
+	memberPopupActions: css`
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 16px;
+	`,
+	memberRowActions: css`
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
 	`,
 	memberPopupRemove: css`
 		all: unset;

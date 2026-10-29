@@ -14,11 +14,13 @@ type CardModalProps = {
 	footer?: ReactNode;
 	/** A failure to show inside the window, where the person is looking. */
 	error?: string;
+	/** The content goes edge to edge, for windows that lay out their own bands and tabs. */
+	flush?: boolean;
 	children: ReactNode;
 };
 
 /** ROMEO's white rounded modal: a big title with a cross, a divider, the content and a footer for the main action. */
-const CardModal = ({ title, onClose, onBack, footer, error, children }: CardModalProps) => {
+const CardModal = ({ title, onClose, onBack, footer, error, flush, children }: CardModalProps) => {
 	const { t } = useTranslation();
 
 	useEffect(() => {
@@ -65,7 +67,7 @@ const CardModal = ({ title, onClose, onBack, footer, error, children }: CardModa
 						</svg>
 					</Box>
 				</Box>
-				<Box className={[cardStyles.modalBody]}>
+				<Box className={[cardStyles.modalBody, flush && cardStyles.modalFlush]}>
 					{error && (
 						<Box marginBlockEnd='x16'>
 							<Callout type='danger'>{error}</Callout>

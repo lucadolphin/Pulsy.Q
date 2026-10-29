@@ -26,7 +26,7 @@ const CardLabels = ({ labels, boardLabels, canEdit, canManage, onToggle, onCreat
 	const [managing, setManaging] = useState(false);
 
 	return (
-		<CardBlock label={t('Exentriq_Card_Labels')}>
+		<CardBlock id='labels' label={t('Exentriq_Card_Labels')}>
 			<Box className={[cardStyles.blockInner, cardStyles.blocks]} flexWrap='wrap'>
 				{labels.map((label) => (
 					<Box key={label._id} is='span' className={[cardStyles.labelChip]} style={{ background: colorOfLabel(label.color) }}>

@@ -84,7 +84,7 @@ const CardCalendar = ({ events, canEdit, onAdd, onUpdate, onRemove }: CardCalend
 	);
 
 	return (
-		<CardBlock label={t('Exentriq_Card_Calendar')}>
+		<CardBlock id='calendar' label={t('Exentriq_Card_Calendar')}>
 			{events.map((event) => (
 				<Box key={event._id} className={[cardStyles.blockInner, cardStyles.row]} marginBlockEnd='x8'>
 					<Icon name='clock' size='x20' style={{ color: '#aaaaaa' }} />

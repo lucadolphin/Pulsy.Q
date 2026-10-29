@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import CardBlock from './CardBlock';
 import CardEditable from './CardEditable';
+import CardMarkdown from './CardMarkdown';
 import { cardStyles } from './cardStyles';
 
 type CardDescriptionProps = {
@@ -15,7 +16,7 @@ const CardDescription = ({ description, canEdit, onSave }: CardDescriptionProps)
 	const { t } = useTranslation();
 
 	return (
-		<CardBlock label={t('Exentriq_Card_Description')}>
+		<CardBlock id='description' label={t('Exentriq_Card_Description')}>
 			<CardEditable
 				canEdit={canEdit}
 				value={description ?? ''}
@@ -26,9 +27,7 @@ const CardDescription = ({ description, canEdit, onSave }: CardDescriptionProps)
 				onSave={(text) => onSave(text.trim() || undefined)}
 			>
 				{description ? (
-					<Box is='span' className={[cardStyles.text, cardStyles.textNormal]} fontSize='x14' style={{ whiteSpace: 'pre-wrap' }}>
-						{description}
-					</Box>
+					<CardMarkdown source={description} />
 				) : (
 					<Box is='span' className={[cardStyles.text, cardStyles.textNormal, cardStyles.textGrey]} fontSize='x14'>
 						{t('Exentriq_Card_No_description_yet')}

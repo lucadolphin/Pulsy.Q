@@ -33,7 +33,7 @@ const CardLinks = ({ cardId, placement, completed, canEdit, onToggleCompleted }:
 	}, [getPaths, placement]);
 
 	return (
-		<CardBlock label={t('Exentriq_Card_Links')}>
+		<CardBlock id='links' label={t('Exentriq_Card_Links')}>
 			<Box className={[cardStyles.blockInner]}>
 				<Box className={[cardStyles.labelSmall]}>{t('Exentriq_Card_Primary_links')}</Box>
 				<Box className={[cardStyles.taskList]}>

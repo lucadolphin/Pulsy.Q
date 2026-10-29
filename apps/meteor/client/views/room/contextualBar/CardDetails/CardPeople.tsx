@@ -40,6 +40,13 @@ const CardPeople = ({
 }: CardPeopleProps) => {
 	const { t } = useTranslation();
 	const router = useRouter();
+
+	// "Send a message" and "Start a call" both go to the direct room with the person: the window they came from closes.
+	const openDirect = (person: Person) => {
+		router.navigate({ name: 'direct', params: { rid: person.username ?? '' } });
+		setOpened(undefined);
+		setListing(false);
+	};
 	const [picking, setPicking] = useState<'member' | 'responsible'>();
 	const [opened, setOpened] = useState<{ person: Person; anchor: DOMRect }>();
 	const [listing, setListing] = useState(false);
@@ -55,7 +62,7 @@ const CardPeople = ({
 	);
 
 	return (
-		<CardBlock label={t('Exentriq_Card_People')}>
+		<CardBlock id='people' label={t('Exentriq_Card_People')}>
 			<Box className={[cardStyles.peopleBlocks]}>
 				<Box className={[cardStyles.blockWhite]}>
 					<Box className={[cardStyles.labelSmall]}>{t('Exentriq_Card_Responsible')}</Box>
@@ -118,7 +125,10 @@ const CardPeople = ({
 				<CardMembersModal
 					members={members}
 					ownerId={ownerId}
+					currentUserId={currentUserId}
 					canEdit={canEdit}
+					onSendMessage={openDirect}
+					onStartCall={openDirect}
 					onRemove={onRemoveMember}
 					onAdd={() => setPicking('member')}
 					onClose={() => setListing(false)}
@@ -132,14 +142,8 @@ const CardPeople = ({
 					isSelf={opened.person.id === currentUserId}
 					canRemove={canEdit && opened.person.id !== ownerId}
 					onClose={() => setOpened(undefined)}
-					onSendMessage={() => {
-						router.navigate({ name: 'direct', params: { rid: opened.person.username ?? '' } });
-						setOpened(undefined);
-					}}
-					onStartCall={() => {
-						router.navigate({ name: 'direct', params: { rid: opened.person.username ?? '' } });
-						setOpened(undefined);
-					}}
+					onSendMessage={() => openDirect(opened.person)}
+					onStartCall={() => openDirect(opened.person)}
 					onRemove={() => {
 						onRemoveMember(opened.person);
 						setOpened(undefined);

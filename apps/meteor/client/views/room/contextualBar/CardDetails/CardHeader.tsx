@@ -17,6 +17,8 @@ type CardHeaderProps = {
 	onToggleCompleted: () => void;
 	onArchive: () => void;
 	onClose: () => void;
+	/** Set when this card was opened from another one: shows an arrow on the left that goes back. */
+	onBack?: () => void;
 };
 
 /** The bar of ROMEO's card detail: billable, activity, link, the card's menu and close. */
@@ -32,6 +34,7 @@ const CardHeader = ({
 	onToggleCompleted,
 	onArchive,
 	onClose,
+	onBack,
 }: CardHeaderProps) => {
 	const { t } = useTranslation();
 	const [menu, setMenu] = useState(false);
@@ -45,6 +48,21 @@ const CardHeader = ({
 
 	return (
 		<Box className={[cardStyles.header]} style={color ? { background: color } : undefined}>
+			{onBack && (
+				<Box
+					is='button'
+					type='button'
+					className={[cardStyles.headerButton]}
+					style={{ marginInlineEnd: 'auto' }}
+					title={t('Back')}
+					aria-label={t('Back')}
+					onClick={onBack}
+				>
+					<svg viewBox='0 0 24 24' aria-hidden='true'>
+						<path d='M20,11V13H8L13.5,18.5L12.08,19.92L4.16,12L12.08,4.08L13.5,5.5L8,11H20Z' />
+					</svg>
+				</Box>
+			)}
 			<Box
 				is='button'
 				type='button'
