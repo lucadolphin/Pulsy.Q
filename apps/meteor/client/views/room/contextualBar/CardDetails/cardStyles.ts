@@ -159,8 +159,8 @@ export const cardStyles = {
 			display: inline-flex !important;
 			align-items: center;
 			justify-content: center;
-			width: 40px !important;
-			height: 40px !important;
+			width: 32px !important;
+			height: 32px !important;
 			padding: 0 !important;
 		}
 
@@ -250,6 +250,80 @@ export const cardStyles = {
 		min-height: 0;
 		padding: 16px;
 		overflow-y: auto;
+	`,
+	loader: css`
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		min-height: 50vh;
+		color: ${PRIMARY};
+	`,
+	listChoiceBoard: css`
+		display: flex;
+		align-items: flex-start;
+		gap: 12px;
+		overflow-x: auto;
+		/* Room for the hover ring, which the scrolling box would otherwise clip. */
+		padding: 4px;
+	`,
+	listChoiceColumn: css`
+		all: unset;
+		box-sizing: border-box;
+		flex: 1 0 160px;
+		padding: 12px;
+		background: ${LIGHT_GREY};
+		border-radius: 8px;
+		cursor: pointer;
+		transition: box-shadow 0.15s ease-in-out;
+
+		&:hover,
+		&:focus-visible {
+			box-shadow: 0 0 0 2px ${PRIMARY};
+		}
+	`,
+	listChoiceTitle: css`
+		display: block;
+		margin-block-end: 12px;
+		color: ${TEXT};
+		font-size: 18px;
+		font-weight: 600;
+		line-height: 24px;
+	`,
+	skeletonCard: css`
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		padding: 12px;
+		background: #fff;
+		border-radius: 6px;
+	`,
+	skeletonBar: css`
+		height: 12px;
+		background: linear-gradient(90deg, #eeeeee 25%, #f8f8f8 50%, #eeeeee 75%);
+		background-size: 200% 100%;
+		border-radius: 6px;
+		animation: cardSkeleton 1.4s ease-in-out infinite;
+
+		@keyframes cardSkeleton {
+			from {
+				background-position: 200% 0;
+			}
+
+			to {
+				background-position: -200% 0;
+			}
+		}
+	`,
+	skeletonCircle: css`
+		flex: 0 0 auto;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+	`,
+	skeletonRow: css`
+		display: flex;
+		align-items: center;
+		gap: 8px;
 	`,
 	top: css`
 		display: flex;
@@ -367,19 +441,18 @@ export const cardStyles = {
 
 		&::before {
 			content: '';
-			width: 16px;
-			height: 3px;
-			background: ${TEXT};
-			border-radius: 1px;
+			box-sizing: border-box;
+			width: 9px;
+			height: 9px;
+			border-inline-end: 2px solid ${TEXT};
+			border-block-end: 2px solid ${TEXT};
+			border-end-end-radius: 1px;
+			transform: translateY(2px) rotate(-135deg);
+			transition: transform 0.15s ease-in-out;
 		}
 
-		&[data-collapsed='true']::after {
-			content: '';
-			position: absolute;
-			width: 3px;
-			height: 16px;
-			background: ${TEXT};
-			border-radius: 1px;
+		&[data-collapsed='true']::before {
+			transform: translateY(-2px) rotate(45deg);
 		}
 	`,
 	title: css`
@@ -555,7 +628,7 @@ export const cardStyles = {
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		padding: 4px 0;
+		padding: 4px 0 4px 13px;
 		font-size: 14px;
 	`,
 	ghost: css`
@@ -622,6 +695,14 @@ export const cardStyles = {
 		align-items: center;
 		gap: 8px;
 		font-size: 16px;
+	`,
+	/** The path wraps on several lines: the menu stays level with the first one. */
+	linksRow: css`
+		align-items: flex-start;
+
+		& > span:last-child {
+			margin-block-start: -4px;
+		}
 	`,
 	pathSeparator: css`
 		color: ${TEXT_LIGHT};

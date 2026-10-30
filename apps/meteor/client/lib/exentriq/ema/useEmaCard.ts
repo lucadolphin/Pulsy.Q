@@ -2,6 +2,8 @@ import { useSetting } from '@rocket.chat/ui-contexts';
 import { Tracker } from 'meteor/tracker';
 import { useEffect, useState } from 'react';
 
+import { setCardColor } from './cardColorCache';
+import { forgetCardSnapshot, loadCardSnapshot, saveCardSnapshot } from './cardSnapshot';
 import type { EmaAttachment, EmaCard, EmaEvent, EmaLabel, EmaList, EmaUser } from './emaConnection';
 import { connectEma } from './emaConnection';
 
@@ -54,7 +56,10 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 
 		let cancelled = false;
 		let stop = (): void => undefined;
-		setState({ status: 'loading' });
+		// What the last visit saw, shown at once: no edits until the connection confirms the roles. Live data replaces it when complete.
+		const snapshot = loadCardSnapshot(cardId);
+		let waitingForLive = !!snapshot;
+		setState(snapshot ? { status: 'ready', ...snapshot, canEdit: false } : { status: 'loading' });
 
 		connectEma(url)
 			.then(({ connection, cards, lists, events, labels, users, attachments, permissions, userId }) => {
@@ -70,7 +75,7 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 
 					// Roles flow down from the board and project above a card: a higher role there is enough to edit it.
 					const entityIds = [cardId, ...parentIds];
-					entityIds.forEach((id) => connection.subscribe('entityRoles', id));
+					const handles = [cardSubscription, ...entityIds.map((id) => connection.subscribe('entityRoles', id))];
 					const roles = permissions
 						.find({ id: { $in: entityIds }, userId })
 						.fetch()
@@ -78,10 +83,13 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 
 					if (!card) {
 						if (cardSubscription.ready()) {
+							forgetCardSnapshot(cardId);
 							setState({ status: 'error', reason: 'not-found' });
 						}
 						return;
 					}
+
+					setCardColor(cardId, card.meta?.color as string | undefined);
 
 					if (boardId) {
 						connection.subscribe('labels', boardId);
@@ -89,7 +97,7 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 
 					const allLists = lists.find({ 'parents.id': cardId }).fetch();
 					const withItems = allLists.map((list): EmaListWithItems => {
-						connection.subscribe('cardsForChecklist', list._id, false);
+						handles.push(connection.subscribe('cardsForChecklist', list._id, false));
 						const items = cards
 							.find({ parents: { $elemMatch: { listId: list._id, archived: { $ne: true } } } })
 							.fetch()
@@ -101,8 +109,14 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 					// The detail publication follows the members with a delay: ask for their usernames too, so avatars do not wait.
 					connection.subscribe('usersForIds', userIds);
 
-					setState({
-						status: 'ready',
+					// Until the card, its roles and its task lists have all arrived the saved copy stays: half the data would flicker.
+					const complete = handles.every((handle) => handle.ready());
+					if (waitingForLive && !complete) {
+						return;
+					}
+					waitingForLive = false;
+
+					const data: EmaCardData = {
 						card,
 						canEdit: roles.some((role) => EDIT_ROLES.includes(role)),
 						userId,
@@ -120,7 +134,11 @@ export const useEmaCard = (cardId: string | undefined): EmaCardState => {
 								.fetch()
 								.some((permission) => (permission.roles ?? []).some((role) => EDIT_ROLES.includes(role))),
 						users: Object.fromEntries(users.find({ _id: { $in: userIds } }).map((user) => [user._id, user])),
-					});
+					};
+					setState({ status: 'ready', ...data });
+					if (complete) {
+						saveCardSnapshot(cardId, data);
+					}
 				});
 				stop = () => computation.stop();
 			})

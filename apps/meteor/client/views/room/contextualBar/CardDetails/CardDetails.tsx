@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next';
 import CardBody from './CardBody';
 import CardHeader from './CardHeader';
 import { cardStyles } from './cardStyles';
+import { useCardColor } from '../../../../lib/exentriq/ema/cardColorCache';
 import { useEmaCard } from '../../../../lib/exentriq/ema/useEmaCard';
 
 type CardDetailsProps = {
@@ -29,6 +30,8 @@ const CardDetails = ({ cardId, onClose }: CardDetailsProps) => {
 	const [trail, setTrail] = useState<string[]>([]);
 	const currentId = trail.at(-1) ?? cardId;
 	const state = useEmaCard(currentId);
+	// Known from the room's prefetch (or an earlier visit): the bar is painted while the rest of the card is on its way.
+	const knownColor = useCardColor(currentId);
 
 	useEffect(() => setTrail([]), [cardId]);
 
@@ -45,9 +48,13 @@ const CardDetails = ({ cardId, onClose }: CardDetailsProps) => {
 					/>
 				) : (
 					<>
-						<CardHeader billable={false} canEdit={false} completed={false} {...NO_ACTIONS} onClose={onClose} />
+						<CardHeader color={knownColor} billable={false} canEdit={false} completed={false} {...NO_ACTIONS} onClose={onClose} />
 						<Box className={[cardStyles.body]}>
-							{state.status === 'loading' && <Throbber />}
+							{state.status === 'loading' && (
+								<Box className={[cardStyles.loader]}>
+									<Throbber size='x32' />
+								</Box>
+							)}
 							{state.status === 'idle' && <Callout type='info'>{t('Exentriq_Card_EMA_not_configured')}</Callout>}
 							{state.status === 'error' && (
 								<Callout type='danger'>{state.reason === 'not-found' ? t('Exentriq_Card_Not_found') : state.reason}</Callout>

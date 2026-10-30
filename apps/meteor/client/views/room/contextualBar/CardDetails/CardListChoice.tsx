@@ -22,13 +22,23 @@ const CardListChoice = ({ done, boardTitle, lists, onPick, onClose }: CardListCh
 			<Box marginBlockEnd='x8'>
 				{done ? t('Exentriq_Card_Select_closed_list', { board: boardTitle }) : t('Exentriq_Card_Select_list', { board: boardTitle })}
 			</Box>
-			{lists.map((list) => (
-				<Box key={list._id} is='button' type='button' className={[cardStyles.personRow]} onClick={() => onPick(list._id)}>
-					<Box is='span' className={[cardStyles.personName]}>
-						{list.title}
+			<Box className={[cardStyles.listChoiceBoard]}>
+				{lists.map((list) => (
+					<Box key={list._id} is='button' type='button' className={[cardStyles.listChoiceColumn]} onClick={() => onPick(list._id)}>
+						<Box is='span' className={[cardStyles.listChoiceTitle]}>
+							{list.title}
+						</Box>
+						<Box is='span' className={[cardStyles.skeletonCard]} aria-hidden>
+							<Box is='span' className={[cardStyles.skeletonBar]} style={{ width: '70%', height: 16 }} />
+							<Box is='span' className={[cardStyles.skeletonRow]}>
+								<Box is='span' className={[cardStyles.skeletonBar, cardStyles.skeletonCircle]} />
+								<Box is='span' className={[cardStyles.skeletonBar]} style={{ flex: 1 }} />
+							</Box>
+							<Box is='span' className={[cardStyles.skeletonBar]} style={{ width: '50%' }} />
+						</Box>
 					</Box>
-				</Box>
-			))}
+				))}
+			</Box>
 		</CardModal>
 	);
 };

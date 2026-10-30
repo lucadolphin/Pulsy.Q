@@ -11,13 +11,10 @@ type CardLinksProps = {
 	cardId: string;
 	/** Changes whenever the card moves between boards or lists, so the path is asked for again. */
 	placement: string;
-	completed: boolean;
-	canEdit: boolean;
-	onToggleCompleted: () => void;
 };
 
 /** "Primary links": where the card lives, board by board and list by list, each step a link into EMA. */
-const CardLinks = ({ cardId, placement, completed, canEdit, onToggleCompleted }: CardLinksProps) => {
+const CardLinks = ({ cardId, placement }: CardLinksProps) => {
 	const { t } = useTranslation();
 	const { getPaths } = useEmaCardActions(cardId);
 	const [path, setPath] = useState<{ name: string; link?: string }[]>([]);
@@ -36,7 +33,7 @@ const CardLinks = ({ cardId, placement, completed, canEdit, onToggleCompleted }:
 		<CardBlock id='links' label={t('Exentriq_Card_Links')}>
 			<Box className={[cardStyles.blockInner]}>
 				<Box className={[cardStyles.labelSmall]}>{t('Exentriq_Card_Primary_links')}</Box>
-				<Box className={[cardStyles.taskList]}>
+				<Box className={[cardStyles.taskList, cardStyles.linksRow]}>
 					<Box className={[cardStyles.path]}>
 						{path.map((step, index) => (
 							<Box key={`${step.name}-${index}`} is='span' className={[cardStyles.path]}>
@@ -56,12 +53,10 @@ const CardLinks = ({ cardId, placement, completed, canEdit, onToggleCompleted }:
 						))}
 					</Box>
 					<CardMenuButton
+						large
 						label={t('Exentriq_Card_Primary_links')}
 						options={{
 							copy: { label: t('Exentriq_Card_Copy_link'), action: () => void navigator.clipboard?.writeText(window.location.href) },
-							...(canEdit && {
-								toggle: { label: completed ? t('Exentriq_Card_Open') : t('Exentriq_Card_Close'), action: onToggleCompleted },
-							}),
 						}}
 					/>
 				</Box>

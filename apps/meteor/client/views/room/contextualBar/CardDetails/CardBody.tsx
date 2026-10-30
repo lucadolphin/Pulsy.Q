@@ -247,9 +247,6 @@ const CardBody = ({ data, onClose, onBack, onOpenCard }: CardBodyProps) => {
 				<CardLinks
 					cardId={card._id}
 					placement={JSON.stringify((card.parents ?? []).map((parent) => [parent.id, parent.listId, parent.closed, parent.archived]))}
-					completed={completed}
-					canEdit={canEdit && !!main}
-					onToggleCompleted={() => main && complete(card._id, main.id, !completed)}
 				/>
 				<CardCalendar
 					events={events}

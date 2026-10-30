@@ -1,6 +1,7 @@
 import type { RoomToolboxActionConfig } from '@rocket.chat/ui-contexts';
 import { lazy, useMemo } from 'react';
 
+import { useEmaCardPrefetch } from '../../lib/exentriq/ema/useEmaCardPrefetch';
 import { useRoom } from '../../views/room/contexts/RoomContext';
 
 const CardDetails = lazy(() => import('../../views/room/contextualBar/CardDetails'));
@@ -24,6 +25,8 @@ const cardDetailsAction = (id: string, featured: boolean, order: number): RoomTo
 /** The "Open Task" icon in the room header, beside the video call: only rooms that belong to an EMA card have it. */
 export const useCardDetailsRoomAction = () => {
 	const cardId = useRoomCardId();
+	// Warm the card as the room opens, so its panel does not start from empty.
+	useEmaCardPrefetch(cardId);
 	return useMemo((): RoomToolboxActionConfig | undefined => (cardId ? cardDetailsAction('card-detail', true, 1) : undefined), [cardId]);
 };
 

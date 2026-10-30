@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 
 import CardAttachmentPreview from './CardAttachmentPreview';
 import CardAttachmentRow from './CardAttachmentRow';
+import CardBlock from './CardBlock';
 import { cardStyles } from './cardStyles';
 import type { EmaAttachment } from '../../../../lib/exentriq/ema/emaConnection';
 
@@ -44,56 +45,55 @@ const CardAttachments = ({ attachments, canEdit, coverId, urlOf, onUpload, onRem
 	};
 
 	return (
-		<>
-			<Box is='h4' className={[cardStyles.attachmentsTitle]}>
-				{t('Exentriq_Card_Attachments')} ({attachments.length})
-			</Box>
-			{canEdit && (
-				<Box
-					className={[cardStyles.dropZone]}
-					data-drag-over={dragOver}
-					role='button'
-					tabIndex={0}
-					onClick={() => input.current?.click()}
-					onKeyDown={(event: { key: string }) => event.key === 'Enter' && input.current?.click()}
-					onDragEnter={(event: DragEvent) => {
-						event.preventDefault();
-						setDragOver(true);
-					}}
-					onDragOver={(event: DragEvent) => event.preventDefault()}
-					onDragLeave={() => setDragOver(false)}
-					onDrop={onDrop}
-				>
-					<svg viewBox='0 0 24 24' aria-hidden='true'>
-						<path d={UPLOAD} />
-					</svg>
-					{uploading > 0 ? t('Exentriq_Card_Uploading') : t('Exentriq_Card_Drop_a_file')}
-					<input
-						ref={input}
-						type='file'
-						multiple
-						hidden
-						onChange={(event) => {
-							if (event.currentTarget.files) {
-								void upload(event.currentTarget.files);
-							}
-							event.currentTarget.value = '';
+		<CardBlock id='attachments' label={`${t('Exentriq_Card_Attachments')} (${attachments.length})`}>
+			<Box className={[cardStyles.blockInner]}>
+				{canEdit && (
+					<Box
+						className={[cardStyles.dropZone]}
+						data-drag-over={dragOver}
+						role='button'
+						tabIndex={0}
+						onClick={() => input.current?.click()}
+						onKeyDown={(event: { key: string }) => event.key === 'Enter' && input.current?.click()}
+						onDragEnter={(event: DragEvent) => {
+							event.preventDefault();
+							setDragOver(true);
 						}}
+						onDragOver={(event: DragEvent) => event.preventDefault()}
+						onDragLeave={() => setDragOver(false)}
+						onDrop={onDrop}
+					>
+						<svg viewBox='0 0 24 24' aria-hidden='true'>
+							<path d={UPLOAD} />
+						</svg>
+						{uploading > 0 ? t('Exentriq_Card_Uploading') : t('Exentriq_Card_Drop_a_file')}
+						<input
+							ref={input}
+							type='file'
+							multiple
+							hidden
+							onChange={(event) => {
+								if (event.currentTarget.files) {
+									void upload(event.currentTarget.files);
+								}
+								event.currentTarget.value = '';
+							}}
+						/>
+					</Box>
+				)}
+				{attachments.map((attachment) => (
+					<CardAttachmentRow
+						key={attachment._id}
+						attachment={attachment}
+						url={urlOf(attachment)}
+						canEdit={canEdit}
+						isCover={coverId === attachment._id}
+						onPreview={() => setPreviewIndex(previewable.findIndex((item) => item._id === attachment._id))}
+						onToggleCover={() => onCover(coverId === attachment._id ? undefined : attachment._id)}
+						onRemove={() => window.confirm(t('Exentriq_Card_Delete_attachment_confirm', { name: attachment.name })) && onRemove(attachment)}
 					/>
-				</Box>
-			)}
-			{attachments.map((attachment) => (
-				<CardAttachmentRow
-					key={attachment._id}
-					attachment={attachment}
-					url={urlOf(attachment)}
-					canEdit={canEdit}
-					isCover={coverId === attachment._id}
-					onPreview={() => setPreviewIndex(previewable.findIndex((item) => item._id === attachment._id))}
-					onToggleCover={() => onCover(coverId === attachment._id ? undefined : attachment._id)}
-					onRemove={() => window.confirm(t('Exentriq_Card_Delete_attachment_confirm', { name: attachment.name })) && onRemove(attachment)}
-				/>
-			))}
+				))}
+			</Box>
 			{previewIndex !== undefined && previewIndex >= 0 && (
 				<CardAttachmentPreview
 					items={previewable}
@@ -103,7 +103,7 @@ const CardAttachments = ({ attachments, canEdit, coverId, urlOf, onUpload, onRem
 					onClose={() => setPreviewIndex(undefined)}
 				/>
 			)}
-		</>
+		</CardBlock>
 	);
 };
 
