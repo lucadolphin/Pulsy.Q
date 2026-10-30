@@ -80,7 +80,7 @@ const CardPeople = ({
 								<Box
 									is='button'
 									type='button'
-									className={[cardStyles.menuButton]}
+									className={[cardStyles.menuButton, cardStyles.removeButton]}
 									aria-label={t('Exentriq_Card_Remove_responsible')}
 									onClick={() => onRemoveResponsible(responsible)}
 								>

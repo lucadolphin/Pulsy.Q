@@ -58,7 +58,7 @@ const CardActivityModal = ({ cardId, boardId, canEdit, onClose }: CardActivityMo
 	};
 
 	return (
-		<CardModal title={t('Exentriq_Card_Activity_tracker')} onClose={onClose} error={error} flush>
+		<CardModal title={t('Exentriq_Card_Activity_tracker')} onClose={onClose} error={error} flush slide>
 			<Box className={[cardStyles.trackerTotal]}>{t('Exentriq_Card_Activity_total', { total: total || '0' })}</Box>
 			<Box className={[cardStyles.trackerTabs]} role='tablist'>
 				{canEdit && (

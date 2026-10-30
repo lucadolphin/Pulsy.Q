@@ -154,6 +154,31 @@ export const cardStyles = {
 			color: ${TEXT} !important;
 		}
 	`,
+	menuDotsLarge: css`
+		& button {
+			display: inline-flex !important;
+			align-items: center;
+			justify-content: center;
+			width: 40px !important;
+			height: 40px !important;
+			padding: 0 !important;
+		}
+
+		& .rcx-icon {
+			font-size: 20px !important;
+		}
+	`,
+	removeButton: css`
+		margin-inline-start: auto;
+		width: 40px;
+		height: 40px;
+		background: rgba(74, 74, 74, 0.12);
+
+		&:hover,
+		&:focus-visible {
+			background: rgba(74, 74, 74, 0.2);
+		}
+	`,
 	headerButtonActive: css`
 		background: rgba(255, 255, 255, 0.3);
 	`,
@@ -318,7 +343,6 @@ export const cardStyles = {
 		font-size: 16px;
 		font-weight: 600;
 		line-height: 24px;
-		cursor: pointer;
 	`,
 	labelSmall: css`
 		margin-block-end: 16px;
@@ -469,6 +493,8 @@ export const cardStyles = {
 	`,
 	checkboxButton: css`
 		all: unset;
+		display: flex;
+		align-items: center;
 		cursor: pointer;
 	`,
 	wideButton: css`
@@ -529,7 +555,7 @@ export const cardStyles = {
 		display: flex;
 		align-items: center;
 		gap: 8px;
-		padding-block: 8px;
+		padding: 4px 0;
 		font-size: 14px;
 	`,
 	ghost: css`
@@ -1160,8 +1186,8 @@ export const cardStyles = {
 		color: #fff;
 	`,
 	iconButtonDanger: css`
-		background: #fdecec;
-		color: ${RED};
+		background: transparent;
+		color: ${TEXT_LIGHT};
 	`,
 	memberPopupActions: css`
 		display: flex;

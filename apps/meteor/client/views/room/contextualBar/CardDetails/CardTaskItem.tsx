@@ -67,7 +67,7 @@ const CardTaskItem = ({
 			<Box is='span' flexGrow={1} className={[completed && cardStyles.taskDone]}>
 				{task.title}
 			</Box>
-			{menu && <CardMenuButton label={task.title} options={menu} />}
+			{menu && <CardMenuButton large label={task.title} options={menu} />}
 		</Box>
 	);
 };

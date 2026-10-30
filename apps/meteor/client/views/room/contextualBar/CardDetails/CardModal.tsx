@@ -16,11 +16,13 @@ type CardModalProps = {
 	error?: string;
 	/** The content goes edge to edge, for windows that lay out their own bands and tabs. */
 	flush?: boolean;
+	/** The window slides in from the right, as the steps of a flow do. */
+	slide?: boolean;
 	children: ReactNode;
 };
 
 /** ROMEO's white rounded modal: a big title with a cross, a divider, the content and a footer for the main action. */
-const CardModal = ({ title, onClose, onBack, footer, error, flush, children }: CardModalProps) => {
+const CardModal = ({ title, onClose, onBack, footer, error, flush, slide, children }: CardModalProps) => {
 	const { t } = useTranslation();
 
 	useEffect(() => {
@@ -33,7 +35,7 @@ const CardModal = ({ title, onClose, onBack, footer, error, flush, children }: C
 	return createPortal(
 		<Box className={[cardStyles.modalOverlay]} onClick={onClose}>
 			<Box
-				className={[cardStyles.modal, onBack && cardStyles.modalStep]}
+				className={[cardStyles.modal, (onBack || slide) && cardStyles.modalStep]}
 				role='dialog'
 				aria-label={title}
 				onClick={(event: { stopPropagation: () => void }) => event.stopPropagation()}

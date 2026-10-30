@@ -28,7 +28,7 @@ const CardBlock = ({ id, label, className, children }: CardBlockProps) => {
 
 	return (
 		<Box className={[cardStyles.block, className]}>
-			<Box className={[cardStyles.label, !open && cardStyles.labelNoSpace]} onClick={() => setOpen(!open)}>
+			<Box className={[cardStyles.label, !open && cardStyles.labelNoSpace]}>
 				{label}
 			</Box>
 			<Box

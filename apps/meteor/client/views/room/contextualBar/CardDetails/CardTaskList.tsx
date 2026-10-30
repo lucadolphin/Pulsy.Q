@@ -127,6 +127,7 @@ const CardTaskList = ({
 				</Box>
 				{canEdit && (
 					<CardMenuButton
+						large
 						label={list.title}
 						options={{
 							rename: { label: t('Exentriq_Card_Rename'), action: () => setDialog({ kind: 'renameList' }) },

@@ -6,11 +6,12 @@ import { cardStyles } from './cardStyles';
 type CardMenuButtonProps = {
 	label: string;
 	options: Record<string, { label: string; action: () => void }>;
+	large?: boolean;
 };
 
 /** The grey three dots of ROMEO's lists and links, opening a short menu. */
-const CardMenuButton = ({ label, options }: CardMenuButtonProps) => (
-	<Box is='span' className={[cardStyles.menuDots]}>
+const CardMenuButton = ({ label, options, large }: CardMenuButtonProps) => (
+	<Box is='span' className={[cardStyles.menuDots, large && cardStyles.menuDotsLarge]}>
 		<GenericMenu
 			detached
 			mini
